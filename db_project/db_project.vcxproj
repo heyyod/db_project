@@ -115,6 +115,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\db_school_project\db_school_project\main.cpp" />
+    <ClCompile Include="..\..\db_school_project\db_school_project\MaxHeap.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\db_school_project\db_school_project\main.h" />
+    <ClInclude Include="..\..\db_school_project\db_school_project\MaxHeap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
