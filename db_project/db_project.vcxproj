@@ -18,6 +18,14 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MaxHeap.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MaxHeap.h" />
+    <ClInclude Include="MinHeap.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{539351AC-84F1-46AA-8ACC-A13C56945DD7}</ProjectGuid>
@@ -114,14 +122,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\db_school_project\db_school_project\main.cpp" />
-    <ClCompile Include="..\..\db_school_project\db_school_project\MaxHeap.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\db_school_project\db_school_project\main.h" />
-    <ClInclude Include="..\..\db_school_project\db_school_project\MaxHeap.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

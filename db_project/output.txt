@@ -1,0 +1,12 @@
+Building Max Heap from data.txt... Time elapsed: 27.5493 ms.
+Maximum of Max Heap is: 700000.
+Size of Max Heap is: 4290 elements.
+Inserting number 100000 in Max Heap... Time elapsed: 20 ms.
+Maximum of Max Heap is: 700000.
+Size of Max Heap is: 4291 elements.
+Deleting max... Time elapsed: 0.0014 ms.
+Maximum of Max Heap is: 100000.
+Size of Max Heap is: 4290 elements.
+Building Max Heap from asd.txt... Time elapsed: 0.422 ms.
+Maximum of Max Heap is: 63452.
+Size of Max Heap is: 4302 elements.
