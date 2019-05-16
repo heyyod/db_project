@@ -3,7 +3,6 @@
 #include <fstream>
 #include <string>
 #include <chrono>
-#include <iostream>
 
 class MaxHeap
 {

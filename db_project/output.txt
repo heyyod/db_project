@@ -1,12 +1,18 @@
-Building Max Heap from data.txt... Time elapsed: 27.5493 ms.
-Maximum of Max Heap is: 700000.
-Size of Max Heap is: 4290 elements.
-Inserting number 100000 in Max Heap... Time elapsed: 20 ms.
-Maximum of Max Heap is: 700000.
-Size of Max Heap is: 4291 elements.
+Building Max Heap from data.txt... Time elapsed: 4.9064 ms.
+Maximum of Max Heap is: 1856168.
+Size of Max Heap is: 620 elements.
+Inserting number 21 in Max Heap... Time elapsed: 16.2 ms.
+Maximum of Max Heap is: 1856168.
+Size of Max Heap is: 621 elements.
 Deleting max... Time elapsed: 0.0014 ms.
-Maximum of Max Heap is: 100000.
-Size of Max Heap is: 4290 elements.
-Building Max Heap from asd.txt... Time elapsed: 0.422 ms.
-Maximum of Max Heap is: 63452.
-Size of Max Heap is: 4302 elements.
+Maximum of Max Heap is: 1856168.
+Size of Max Heap is: 620 elements.
+Building Min Heap from data.txt... Time elapsed: 5.5318 ms.
+Minimum of Min Heap is: 1.
+Size of Min Heap is: 620 elements.
+Inserting number 666 in Min Heap... Time elapsed: 16.6 ms.
+Minimum of Min Heap is: 1.
+Size of Min Heap is: 621 elements.
+Deleting min... Time elapsed: 0.0013 ms.
+Minimum of Min Heap is: 1.
+Size of Min Heap is: 620 elements.

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MaxHeap.cpp" />
+    <ClCompile Include="MinHeap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MaxHeap.h" />

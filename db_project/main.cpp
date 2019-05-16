@@ -1,6 +1,7 @@
 #include <fstream>
 #include <chrono>
 #include "MaxHeap.h"
+#include "MinHeap.h"
 
 bool IsCommand(std::string command, std::string line)
 {
@@ -13,6 +14,7 @@ int main()
 	std::ofstream output("output.txt");
 
 	MaxHeap maxH;
+	MinHeap minH;
 
 	std::string line = "";
 	while (std::getline(commands, line))
@@ -36,6 +38,26 @@ int main()
 		else if (IsCommand("DELETEMAX MAXHEAP",line))
 		{
 			maxH.DeleteMax(output);
+		}
+		else if (IsCommand("BUILD MINHEAP", line))
+		{
+			minH.BuildMinHeap(line, output);
+		}
+		else if (IsCommand("INSERT MINHEAP", line))
+		{
+			minH.Insert(line, output);
+		}
+		else if (IsCommand("FINDMIN MINHEAP", line))
+		{
+			minH.GetMax(output);
+		}
+		else if (IsCommand("GETSIZE MINHEAP", line))
+		{
+			minH.GetSize(output);
+		}
+		else if (IsCommand("DELETEMIN MINHEAP", line))
+		{
+			minH.DeleteMax(output);
 		}
 	}
 

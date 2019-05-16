@@ -1,11 +1,11 @@
-#include "MaxHeap.h"
+#include "MinHeap.h"
 
-MaxHeap::~MaxHeap()
+MinHeap::~MinHeap()
 {
-	delete [] heap;
+	delete[] heap;
 }
 
-void MaxHeap::BuildMaxHeap(std::string line, std::ofstream& output)
+void MinHeap::BuildMinHeap(std::string line, std::ofstream& output)
 {
 	auto start = std::chrono::steady_clock::now();
 
@@ -28,7 +28,7 @@ void MaxHeap::BuildMaxHeap(std::string line, std::ofstream& output)
 	int i = 1;
 	while (std::getline(data, number))
 	{
-		int element = (int) std::stoi(number);
+		int element = std::stoi(number);
 		heap[i] = element;
 		i++;
 	}
@@ -41,63 +41,63 @@ void MaxHeap::BuildMaxHeap(std::string line, std::ofstream& output)
 	auto end = std::chrono::steady_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
 	double elapsedTime = elapsed_seconds.count() * 1000;
-	output << "Building Max Heap from " << filename << "... Time elapsed: " << elapsedTime << " ms.\n";
+	output << "Building Min Heap from " << filename << "... Time elapsed: " << elapsedTime << " ms.\n";
 }
 
-void MaxHeap::Heapify(int level)
+void MinHeap::Heapify(int level)
 {
 	int parent = heap[level];
 	int leftPos = leftChild(level);
 	int rightPos = rightChild(level);
-	int maxPos = level;
-	
+	int minPos = level;
+
 	if (leftPos <= currentSize)
 	{
-		if (parent < heap[leftPos])
-			maxPos = leftPos;
+		if (parent > heap[leftPos])
+			minPos = leftPos;
 
 		if (rightPos <= currentSize)
-			if (heap[maxPos] < heap[rightPos])
-				maxPos = rightPos;
+			if (heap[minPos] > heap[rightPos])
+				minPos = rightPos;
 	}
 
-	if (maxPos != level)
+	if (minPos != level)
 	{
-		Swap(maxPos, level);
-		Heapify(maxPos);
-	}	
+		Swap(minPos, level);
+		Heapify(minPos);
+	}
 }
 
-void MaxHeap::Swap(int i, int j)
+void MinHeap::Swap(int i, int j)
 {
 	int temp = heap[i];
 	heap[i] = heap[j];
 	heap[j] = temp;
 }
 
-void MaxHeap::GetSize(std::ofstream& output) const
+void MinHeap::GetSize(std::ofstream& output) const
 {
-	output << "Size of Max Heap is: " << currentSize << " elements.\n";
+	output << "Size of Min Heap is: " << currentSize << " elements.\n";
 }
 
-void MaxHeap::GetMax(std::ofstream& output) const
+void MinHeap::GetMax(std::ofstream& output) const
 {
-	int max = heap[1];
+	int min = heap[1];
 	if (currentSize)
 	{
-		output << "Maximum of Max Heap is: " << max << ".\n";
+		output << "Minimum of Min Heap is: " << min << ".\n";
 	}
 	else
 	{
-		output << "Could not find max. Max heap is empty.\n";
+		output << "Could not find min. Min heap is empty.\n";
 	}
 }
 
-void MaxHeap::Insert(std::string s, std::ofstream& output) //TODO: change parametre to string
+void MinHeap::Insert(std::string s, std::ofstream& output) //TODO: change parametre to string
 {
 	if (currentSize == maxSize)
 	{
-		output << "ERROR: Max heap is full. Could not insert the number.\n"; 
+		output << "ERROR: Min heap is full. Could not insert the number.\n";
 	}
 	else
 	{
@@ -107,7 +107,7 @@ void MaxHeap::Insert(std::string s, std::ofstream& output) //TODO: change parame
 		int pos = ++currentSize;
 		heap[pos] = n;
 
-		while (pos > 1 && heap[parent(pos)] < heap[pos])
+		while (pos > 1 && heap[parent(pos)] > heap[pos])
 		{
 			Swap(pos, parent(pos));
 			pos = parent(pos);
@@ -116,15 +116,15 @@ void MaxHeap::Insert(std::string s, std::ofstream& output) //TODO: change parame
 		auto end = std::chrono::steady_clock::now();
 		std::chrono::duration<double> elapsed_seconds = end - start;
 		double elapsedTime = elapsed_seconds.count() * 1000 * 1000;
-		output << "Inserting number " << n << " in Max Heap... Time elapsed: " << elapsedTime << " ms.\n";
+		output << "Inserting number " << n << " in Min Heap... Time elapsed: " << elapsedTime << " ms.\n";
 	}
 }
 
-void MaxHeap::DeleteMax(std::ofstream& output)
-{	
+void MinHeap::DeleteMax(std::ofstream& output)
+{
 	if (currentSize == 0)
 	{
-		output << "ERROR: Max heap is empty. Could not delete max.\n";
+		output << "ERROR: Min heap is empty. Could not delete min.\n";
 	}
 	else
 	{
@@ -141,11 +141,11 @@ void MaxHeap::DeleteMax(std::ofstream& output)
 			int rightC = rightChild(tempPos);
 			if (leftC <= currentSize)
 			{
-				if (temp < heap[leftC])
+				if (temp > heap[leftC])
 					newPos = leftC;
 
 				if (rightC <= currentSize)
-					if (heap[leftC] < heap[rightC])
+					if (heap[leftC] > heap[rightC])
 						newPos = rightC;
 			}
 
@@ -160,30 +160,30 @@ void MaxHeap::DeleteMax(std::ofstream& output)
 		auto end = std::chrono::steady_clock::now();
 		std::chrono::duration<double> elapsed_seconds = end - start;
 		double elapsedTime = elapsed_seconds.count() * 1000;
-		output << "Deleting max... Time elapsed: " << elapsedTime << " ms.\n";
+		output << "Deleting min... Time elapsed: " << elapsedTime << " ms.\n";
 	}
 }
 
-int MaxHeap::parent(int i)
+int MinHeap::parent(int i)
 {
 	return i / 2;
 }
 
-int MaxHeap::leftChild(int parentPos)
+int MinHeap::leftChild(int parentPos)
 {
 	return 2 * parentPos;
 }
 
-int MaxHeap::rightChild(int parentPos)
+int MinHeap::rightChild(int parentPos)
 {
 	return (2 * parentPos) + 1;
 }
 
-int MaxHeap::ExtractNumber(std::string s)
+int MinHeap::ExtractNumber(std::string s)
 {
 	std::string n = "";
 	unsigned int i = 0;
-	while (i <= s.length() - 1 )
+	while (i <= s.length() - 1)
 	{
 		if (s[i] >= '0' && s[i] <= '9')
 		{
@@ -191,13 +191,13 @@ int MaxHeap::ExtractNumber(std::string s)
 		}
 		i++;
 	}
-	int number = stoi(n);
+	int number = std::stoi(n);
 	return number;
 }
 
-std::string MaxHeap::ExtractFilename(std::string s)
+std::string MinHeap::ExtractFilename(std::string s)
 {
-	size_t pos = s.find_last_of("BUILD MAXHEAP ");
+	size_t pos = s.find_last_of("BUILD MINHEAP ");
 	std::string filename = s.substr(pos + 1) + ".txt";
 	return filename;
 }
