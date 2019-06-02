@@ -2,6 +2,7 @@
 #include <chrono>
 #include "MaxHeap.h"
 #include "MinHeap.h"
+#include "hashtable.h"
 
 bool IsCommand(std::string command, std::string line)
 {
@@ -15,6 +16,7 @@ int main()
 
 	MaxHeap maxH;
 	MinHeap minH;
+	Hashtable hashT;
 
 	std::string line = "";
 	while (std::getline(commands, line))
@@ -29,15 +31,15 @@ int main()
 		}
 		else if (IsCommand("FINDMAX MAXHEAP",line))
 		{
-			maxH.GetMax(output);
+			maxH.GetMax(line, output);
 		}
 		else if (IsCommand("GETSIZE MAXHEAP",line))
 		{
-			maxH.GetSize(output);
+			maxH.GetSize(line, output);
 		}
 		else if (IsCommand("DELETEMAX MAXHEAP",line))
 		{
-			maxH.DeleteMax(output);
+			maxH.DeleteMax(line, output);
 		}
 		else if (IsCommand("BUILD MINHEAP", line))
 		{
@@ -49,15 +51,35 @@ int main()
 		}
 		else if (IsCommand("FINDMIN MINHEAP", line))
 		{
-			minH.GetMax(output);
+			minH.GetMax(line, output);
 		}
 		else if (IsCommand("GETSIZE MINHEAP", line))
 		{
-			minH.GetSize(output);
+			minH.GetSize(line, output);
 		}
 		else if (IsCommand("DELETEMIN MINHEAP", line))
 		{
-			minH.DeleteMax(output);
+			minH.DeleteMax(line, output);
+		}
+		else if (IsCommand("BUILD HASHTABLE", line))
+		{
+			hashT.BuildHashTable(line, output);
+		}
+		else if (IsCommand("INSERT HASHTABLE", line))
+		{
+			hashT.InsertNewNumber(line, output);
+		}
+		else if (IsCommand("DELETE HASHTABLE", line))
+		{
+			hashT.Delete(line, output);
+		}
+		else if (IsCommand("SEARCH HASHTABLE", line))
+		{
+			hashT.Search(line, output);
+		}
+		else if (IsCommand("GETSIZE HASHTABLE", line))
+		{
+			hashT.GetSize(line, output);
 		}
 	}
 
