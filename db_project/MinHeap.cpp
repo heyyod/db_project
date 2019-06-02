@@ -41,7 +41,7 @@ void MinHeap::BuildMinHeap(std::string line, std::ofstream& output)
 	auto end = std::chrono::steady_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
 	double elapsedTime = elapsed_seconds.count() * 1000;
-	output << "Building Min Heap from " << filename << "... Time elapsed: " << elapsedTime << " ms.\n";
+	output << line << "\t\t" << elapsedTime << " ms.\n";
 }
 
 void MinHeap::Heapify(int level)
@@ -75,35 +75,35 @@ void MinHeap::Swap(int i, int j)
 	heap[j] = temp;
 }
 
-void MinHeap::GetSize(std::ofstream& output) const
+void MinHeap::GetSize(std::string line, std::ofstream& output) const
 {
-	output << "Size of Min Heap is: " << currentSize << " elements.\n";
+	output << line << "\t\t" << currentSize << " elements\n";
 }
 
-void MinHeap::GetMax(std::ofstream& output) const
+void MinHeap::GetMax(std::string line, std::ofstream& output) const
 {
 	int min = heap[1];
 	if (currentSize)
 	{
-		output << "Minimum of Min Heap is: " << min << ".\n";
+		output << line << "\t\t" << min << "\n";
 	}
 	else
 	{
-		output << "Could not find min. Min heap is empty.\n";
+		output << line << "\t\tERROR - HEAP IS EMPTY";
 	}
 }
 
-void MinHeap::Insert(std::string s, std::ofstream& output) //TODO: change parametre to string
+void MinHeap::Insert(std::string line, std::ofstream& output) //TODO: change parametre to string
 {
 	if (currentSize == maxSize)
 	{
-		output << "ERROR: Min heap is full. Could not insert the number.\n";
+		output << line << "\t\tERROR - HEAP IS FULL";
 	}
 	else
 	{
 		auto start = std::chrono::steady_clock::now();
 
-		int n = ExtractNumber(s);
+		int n = ExtractNumber(line);
 		int pos = ++currentSize;
 		heap[pos] = n;
 
@@ -116,15 +116,15 @@ void MinHeap::Insert(std::string s, std::ofstream& output) //TODO: change parame
 		auto end = std::chrono::steady_clock::now();
 		std::chrono::duration<double> elapsed_seconds = end - start;
 		double elapsedTime = elapsed_seconds.count() * 1000 * 1000;
-		output << "Inserting number " << n << " in Min Heap... Time elapsed: " << elapsedTime << " ms.\n";
+		output << line << "\t\t" << elapsedTime << " ms\n";
 	}
 }
 
-void MinHeap::DeleteMax(std::ofstream& output)
+void MinHeap::DeleteMax(std::string line, std::ofstream& output)
 {
 	if (currentSize == 0)
 	{
-		output << "ERROR: Min heap is empty. Could not delete min.\n";
+		output << line << "\t\tERROR - HEAP IS EMPTY";
 	}
 	else
 	{
@@ -160,7 +160,7 @@ void MinHeap::DeleteMax(std::ofstream& output)
 		auto end = std::chrono::steady_clock::now();
 		std::chrono::duration<double> elapsed_seconds = end - start;
 		double elapsedTime = elapsed_seconds.count() * 1000;
-		output << "Deleting min... Time elapsed: " << elapsedTime << " ms.\n";
+		output << line << "\t\t" << elapsedTime << " ms\n";
 	}
 }
 

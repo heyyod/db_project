@@ -11,10 +11,10 @@ public:
 	void BuildMinHeap(std::string line, std::ofstream& output);
 	void Heapify(int size);
 	void Swap(int i, int j);
-	void GetSize(std::ofstream& output) const;
-	void GetMax(std::ofstream& output) const;
+	void GetSize(std::string line, std::ofstream& output) const;
+	void GetMax(std::string line, std::ofstream& output) const;
 	void Insert(std::string s, std::ofstream& output);
-	void DeleteMax(std::ofstream& output);
+	void DeleteMax(std::string line, std::ofstream& output);
 
 	int parent(int i);
 	int leftChild(int parentPos);

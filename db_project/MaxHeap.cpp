@@ -41,7 +41,7 @@ void MaxHeap::BuildMaxHeap(std::string line, std::ofstream& output)
 	auto end = std::chrono::steady_clock::now();
 	std::chrono::duration<double> elapsed_seconds = end - start;
 	double elapsedTime = elapsed_seconds.count() * 1000;
-	output << "Building Max Heap from " << filename << "... Time elapsed: " << elapsedTime << " ms.\n";
+	output << line << "\t\t" << elapsedTime << " ms.\n";
 }
 
 void MaxHeap::Heapify(int level)
@@ -75,35 +75,35 @@ void MaxHeap::Swap(int i, int j)
 	heap[j] = temp;
 }
 
-void MaxHeap::GetSize(std::ofstream& output) const
+void MaxHeap::GetSize(std::string line, std::ofstream& output) const
 {
-	output << "Size of Max Heap is: " << currentSize << " elements.\n";
+	output << line << "\t\t" << currentSize << " elements\n";
 }
 
-void MaxHeap::GetMax(std::ofstream& output) const
+void MaxHeap::GetMax(std::string line, std::ofstream& output) const
 {
 	int max = heap[1];
 	if (currentSize)
 	{
-		output << "Maximum of Max Heap is: " << max << ".\n";
+		output << line << "\t\t" << max << "\n";
 	}
 	else
 	{
-		output << "Could not find max. Max heap is empty.\n";
+		output << line << "\t\tERROR - HEAP IS EMPTY";
 	}
 }
 
-void MaxHeap::Insert(std::string s, std::ofstream& output) //TODO: change parametre to string
+void MaxHeap::Insert(std::string line, std::ofstream& output) //TODO: change parametre to string
 {
 	if (currentSize == maxSize)
 	{
-		output << "ERROR: Max heap is full. Could not insert the number.\n"; 
+		output << line << "\t\tERROR - HEAP IS FULL"; 
 	}
 	else
 	{
 		auto start = std::chrono::steady_clock::now();
 
-		int n = ExtractNumber(s);
+		int n = ExtractNumber(line);
 		int pos = ++currentSize;
 		heap[pos] = n;
 
@@ -116,15 +116,15 @@ void MaxHeap::Insert(std::string s, std::ofstream& output) //TODO: change parame
 		auto end = std::chrono::steady_clock::now();
 		std::chrono::duration<double> elapsed_seconds = end - start;
 		double elapsedTime = elapsed_seconds.count() * 1000 * 1000;
-		output << "Inserting number " << n << " in Max Heap... Time elapsed: " << elapsedTime << " ms.\n";
+		output << line << "\t\t" << elapsedTime << " ms\n";
 	}
 }
 
-void MaxHeap::DeleteMax(std::ofstream& output)
+void MaxHeap::DeleteMax(std::string line, std::ofstream& output)
 {	
 	if (currentSize == 0)
 	{
-		output << "ERROR: Max heap is empty. Could not delete max.\n";
+		output << line << "\t\tERROR - HEAP IS EMPTY";
 	}
 	else
 	{
@@ -160,7 +160,7 @@ void MaxHeap::DeleteMax(std::ofstream& output)
 		auto end = std::chrono::steady_clock::now();
 		std::chrono::duration<double> elapsed_seconds = end - start;
 		double elapsedTime = elapsed_seconds.count() * 1000;
-		output << "Deleting max... Time elapsed: " << elapsedTime << " ms.\n";
+		output << line << "\t\t" << elapsedTime << " ms\n";
 	}
 }
 
