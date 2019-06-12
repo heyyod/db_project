@@ -3,6 +3,7 @@
 #include "MaxHeap.h"
 #include "MinHeap.h"
 #include "hashtable.h"
+#include "Avl.h"
 
 bool IsCommand(std::string command, std::string line)
 {
@@ -17,70 +18,56 @@ int main()
 	MaxHeap maxH;
 	MinHeap minH;
 	Hashtable hashT;
+	AVLTree avlTree;
 
 	std::string line = "";
 	while (std::getline(commands, line))
 	{
 		if (IsCommand("BUILD MAXHEAP", line))
-		{
 			maxH.BuildMaxHeap(line, output);
-		}
 		else if (IsCommand("INSERT MAXHEAP", line))
-		{
 			maxH.Insert(line, output);
-		}
-		else if (IsCommand("FINDMAX MAXHEAP",line))
-		{
+		else if (IsCommand("FINDMAX MAXHEAP", line))
 			maxH.GetMax(line, output);
-		}
-		else if (IsCommand("GETSIZE MAXHEAP",line))
-		{
+		else if (IsCommand("GETSIZE MAXHEAP", line))
 			maxH.GetSize(line, output);
-		}
-		else if (IsCommand("DELETEMAX MAXHEAP",line))
-		{
+		else if (IsCommand("DELETEMAX MAXHEAP", line))
 			maxH.DeleteMax(line, output);
-		}
+
 		else if (IsCommand("BUILD MINHEAP", line))
-		{
 			minH.BuildMinHeap(line, output);
-		}
 		else if (IsCommand("INSERT MINHEAP", line))
-		{
 			minH.Insert(line, output);
-		}
 		else if (IsCommand("FINDMIN MINHEAP", line))
-		{
 			minH.GetMax(line, output);
-		}
 		else if (IsCommand("GETSIZE MINHEAP", line))
-		{
 			minH.GetSize(line, output);
-		}
 		else if (IsCommand("DELETEMIN MINHEAP", line))
-		{
 			minH.DeleteMax(line, output);
-		}
+
 		else if (IsCommand("BUILD HASHTABLE", line))
-		{
 			hashT.BuildHashTable(line, output);
-		}
 		else if (IsCommand("INSERT HASHTABLE", line))
-		{
 			hashT.InsertNewNumber(line, output);
-		}
 		else if (IsCommand("DELETE HASHTABLE", line))
-		{
 			hashT.Delete(line, output);
-		}
 		else if (IsCommand("SEARCH HASHTABLE", line))
-		{
 			hashT.Search(line, output);
-		}
 		else if (IsCommand("GETSIZE HASHTABLE", line))
-		{
 			hashT.GetSize(line, output);
-		}
+
+		else if (IsCommand("BUILD AVLTREE", line))
+			avlTree.BuildAvlTree(line, output);
+		else if (IsCommand("FINDMIN AVLTREE", line))
+			;
+		else if (IsCommand("INSERT AVLTREE", line))
+			avlTree.InsertNode(line);
+		else if (IsCommand("DELETE AVLTREE", line))
+			;
+		else if (IsCommand("SEARCH AVLTREE", line))
+			;
+		else if (IsCommand("GETSIZE AVLTREE", line))
+			avlTree.GetSize(line, output);
 	}
 
 	return 0;
