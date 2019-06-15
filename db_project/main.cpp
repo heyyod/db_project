@@ -53,6 +53,7 @@ int main()
 		int number = ExtractNumber(line);
 		output << std::endl << line << "\t\t";
 		
+		//~~~~~~~~~~~~~~~ MAX HEAP ~~~~~~~~~~~~~~~
 		if (IsCommand("BUILD MAXHEAP", line))
 		{
 			std::string filename = ExtractFilename("BUILD MAXHEAP ", line);
@@ -94,6 +95,7 @@ int main()
 			continue;
 		}
 
+		//~~~~~~~~~~~~~~~ MIN HEAP ~~~~~~~~~~~~~~~
 		else if (IsCommand("BUILD MINHEAP", line))
 		{
 			std::string filename = ExtractFilename("BUILD MINHEAP ", line);
@@ -135,6 +137,7 @@ int main()
 			continue;
 		}
 
+		//~~~~~~~~~~~~~~~ HASHTABLE ~~~~~~~~~~~~~~~
 		else if (IsCommand("BUILD HASHTABLE", line))
 		{
 			std::string filename = ExtractFilename("BUILD HASHTABLE ", line);
@@ -168,6 +171,7 @@ int main()
 			continue;
 		}
 
+		//~~~~~~~~~~~~~~~ AVL TREE ~~~~~~~~~~~~~~~
 		else if (IsCommand("BUILD AVLTREE", line))
 		{
 			std::string filename = ExtractFilename("BUILD AVLTREE ", line);
@@ -190,7 +194,10 @@ int main()
 		}
 		else if (IsCommand("DELETE AVLTREE", line))
 		{
-		;
+			if (avlTree.Delete(number))
+				output << "SUCCESS - ";
+			else
+				output << "NUMBER NOT FOUND - ";
 		}
 		else if (IsCommand("SEARCH AVLTREE", line))
 		{

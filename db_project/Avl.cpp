@@ -10,7 +10,8 @@ Node::Node(int v, Node * l, Node * r)
 int Node::height()
 {
 	int h = 0;
-	if (this != nullptr) {
+	if (this != nullptr) 
+	{
 		int leftHeight = this->leftChild->height();
 		int rightHeight = this->rightChild->height();
 		int maxHeight = leftHeight > rightHeight ? leftHeight : rightHeight;
@@ -43,6 +44,15 @@ void AVLTree::Insert(int number)
 	elements += 1;
 }
 
+bool AVLTree::Delete(int number)
+{
+	bool found = false;
+	root = Delete(root, number, found);
+	if(found)
+		elements -= 1;
+	return found;
+}
+
 Node* AVLTree::Insert(Node* n, int value)
 {
 	if (n == nullptr)
@@ -62,8 +72,53 @@ Node* AVLTree::Insert(Node* n, int value)
 	return n;
 }
 
+Node * AVLTree::Delete(Node* n, int value, bool& found)
+{
+	Node* temp = nullptr;
+	if (n != nullptr)
+	{
+		if (value < n->value)
+			n->leftChild = Delete(n->leftChild, value, found);
+		else if (value > n->value)
+			n->rightChild = Delete(n->rightChild, value, found);
+		else
+		{
+			if (n->leftChild == nullptr && n->rightChild == nullptr) // No children
+			{
+				temp = n;
+				n = nullptr;
+			}
+			else if (n->leftChild != nullptr && n->rightChild == nullptr) // Left child only
+			{
+				Node* leftChild = n->leftChild;
+				temp = n;
+				n = leftChild;
+			}
+			else if (n->leftChild == nullptr && n->rightChild != nullptr) // Right child only
+			{
+				Node* rightChild = n->rightChild;
+				temp = n;
+				n = rightChild;
+			}
+			else // Left and Right child
+			{
+				Node* replacingNode = MinNode(n->rightChild);
+				n->value = replacingNode->value;
+				n->rightChild = Delete(n->rightChild, replacingNode->value, found);
+			}
+			delete temp;
+			found = true;
+		}
+	}
+	n = BalanceNode(n);
+	return n;
+}
+
 Node* AVLTree::BalanceNode(Node* n)
 {
+	if (n == nullptr)
+		return n;
+
 	int nBalanceFactor = nodeBalanceFactor(n);
 
 	if (nBalanceFactor >= -1 && nBalanceFactor <= 1)
@@ -71,14 +126,10 @@ Node* AVLTree::BalanceNode(Node* n)
 		return n;
 	}
 
-	int nVal = n->value;
-	int leftGrandChildVal = n->leftChild ? n->leftChild->value : -1;
-	int rightGrandChildVal = n->rightChild ? n->rightChild->value : -1;
-	
 	if (nBalanceFactor > 1)
 	{
-		bool isLeftLeftCase = (n->leftChild->leftChild != nullptr);
-		if (isLeftLeftCase) // LEFT LEFT
+		int leftBalanceFactor = nodeBalanceFactor(n->leftChild);
+		if (leftBalanceFactor >= 0) // LEFT LEFT
 		{
 			return RightRotation(n);
 		}
@@ -90,8 +141,8 @@ Node* AVLTree::BalanceNode(Node* n)
 	}
 	else if (nBalanceFactor < -1)
 	{
-		bool isRightRightCase = (n->rightChild->rightChild != nullptr);
-		if (isRightRightCase) // RIGHT RIGHT
+		int rightBalanceFactor = nodeBalanceFactor(n->rightChild);
+		if (rightBalanceFactor <= 0) // RIGHT RIGHT
 		{
 			return LeftRotation(n);
 		}
@@ -118,6 +169,23 @@ Node * AVLTree::LeftRotation(Node * n)
 	n->rightChild = a->leftChild;
 	a->leftChild = n;
 	return a;
+}
+
+Node * AVLTree::MinNode(Node * n) const
+{
+	Node* currentNode = n;
+	if (currentNode != nullptr)
+	{
+		while (currentNode->leftChild != nullptr)
+		{
+			currentNode = currentNode->leftChild;
+		}
+		return currentNode;
+	}
+	else
+	{
+		return n;
+	}
 }
 
 int AVLTree::GetSize() const
@@ -148,19 +216,12 @@ bool AVLTree::Search(int number) const
 
 int AVLTree::GetMin() const
 {
-	Node* currentNode = root;
-	if (currentNode != nullptr)
+	Node* minNode = MinNode(root);
+	if (minNode != nullptr)
 	{
-		while (currentNode->leftChild != nullptr)
-		{
-			currentNode = currentNode->leftChild;
-		}
-		return currentNode->value;
+		return minNode->value;
 	}
-	else
-	{
-		return -1;
-	}
+	return -1;
 }
 
 int AVLTree::nodeBalanceFactor(Node * n)
