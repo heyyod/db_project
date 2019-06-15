@@ -5,11 +5,8 @@ MinHeap::~MinHeap()
 	delete[] heap;
 }
 
-void MinHeap::BuildMinHeap(std::string line, std::ofstream& output)
+void MinHeap::Build(std::string filename)
 {
-	auto start = std::chrono::steady_clock::now();
-
-	auto filename = ExtractFilename(line);
 	std::ifstream data(filename);
 
 	std::string number = "";
@@ -37,11 +34,6 @@ void MinHeap::BuildMinHeap(std::string line, std::ofstream& output)
 	{
 		Heapify(i);
 	}
-
-	auto end = std::chrono::steady_clock::now();
-	std::chrono::duration<double> elapsed_seconds = end - start;
-	double elapsedTime = elapsed_seconds.count() * 1000;
-	output << line << "\t\t" << elapsedTime << " ms.\n";
 }
 
 void MinHeap::Heapify(int level)
@@ -75,61 +67,40 @@ void MinHeap::Swap(int i, int j)
 	heap[j] = temp;
 }
 
-void MinHeap::GetSize(std::string line, std::ofstream& output) const
+int MinHeap::GetSize() const
 {
-	output << line << "\t\t" << currentSize << " elements\n";
+	return currentSize;
 }
 
-void MinHeap::GetMax(std::string line, std::ofstream& output) const
+int MinHeap::GetMin() const
 {
-	int min = heap[1];
-	if (currentSize)
-	{
-		output << line << "\t\t" << min << "\n";
-	}
+	if (currentSize > 0)
+		return heap[1];
 	else
-	{
-		output << line << "\t\tERROR - HEAP IS EMPTY";
-	}
+		return -1;
 }
 
-void MinHeap::Insert(std::string line, std::ofstream& output) //TODO: change parametre to string
+bool MinHeap::Insert(int number) //TODO: change parametre to string
 {
-	if (currentSize == maxSize)
+	if (currentSize < maxSize)
 	{
-		output << line << "\t\tERROR - HEAP IS FULL";
-	}
-	else
-	{
-		auto start = std::chrono::steady_clock::now();
-
-		int n = ExtractNumber(line);
 		int pos = ++currentSize;
-		heap[pos] = n;
+		heap[pos] = number;
 
 		while (pos > 1 && heap[parent(pos)] > heap[pos])
 		{
 			Swap(pos, parent(pos));
 			pos = parent(pos);
 		}
-
-		auto end = std::chrono::steady_clock::now();
-		std::chrono::duration<double> elapsed_seconds = end - start;
-		double elapsedTime = elapsed_seconds.count() * 1000 * 1000;
-		output << line << "\t\t" << elapsedTime << " ms\n";
+		return true;
 	}
+	return false;
 }
 
-void MinHeap::DeleteMax(std::string line, std::ofstream& output)
+bool MinHeap::DeleteMin()
 {
-	if (currentSize == 0)
+	if (currentSize > 0)
 	{
-		output << line << "\t\tERROR - HEAP IS EMPTY";
-	}
-	else
-	{
-		auto start = std::chrono::steady_clock::now();
-
 		int temp = heap[currentSize--];
 		int tempPos = 1;
 		int newPos = 1;
@@ -157,11 +128,9 @@ void MinHeap::DeleteMax(std::string line, std::ofstream& output)
 			else
 				break;
 		}
-		auto end = std::chrono::steady_clock::now();
-		std::chrono::duration<double> elapsed_seconds = end - start;
-		double elapsedTime = elapsed_seconds.count() * 1000;
-		output << line << "\t\t" << elapsedTime << " ms\n";
+		return true;
 	}
+	return false;
 }
 
 int MinHeap::parent(int i)
@@ -177,27 +146,4 @@ int MinHeap::leftChild(int parentPos)
 int MinHeap::rightChild(int parentPos)
 {
 	return (2 * parentPos) + 1;
-}
-
-int MinHeap::ExtractNumber(std::string s)
-{
-	std::string n = "";
-	unsigned int i = 0;
-	while (i <= s.length() - 1)
-	{
-		if (s[i] >= '0' && s[i] <= '9')
-		{
-			n += s[i];
-		}
-		i++;
-	}
-	int number = std::stoi(n);
-	return number;
-}
-
-std::string MinHeap::ExtractFilename(std::string s)
-{
-	size_t pos = s.find_last_of("BUILD MINHEAP ");
-	std::string filename = s.substr(pos + 1) + ".txt";
-	return filename;
 }

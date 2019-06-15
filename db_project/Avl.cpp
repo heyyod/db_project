@@ -25,28 +25,25 @@ AVLTree::AVLTree()
 	elements = 0;
 }
 
-void AVLTree::BuildAvlTree(std::string line, std::ofstream & output)
+void AVLTree::Build(std::string filename)
 {
-	auto filename = ExtractFilename(line);
 	std::ifstream data(filename);
 
 	std::string number;
 	while (std::getline(data, number))
 	{
 		int x = std::stoi(number);
-		root = InsertNode(root, x);
-		elements += 1;
+		Insert(x);
 	}
 }
 
-void AVLTree::InsertNode(std::string line)
+void AVLTree::Insert(int number)
 {
-	int number = ExtractNumber(line);
-	root = InsertNode(root, number);
+	root = Insert(root, number);
 	elements += 1;
 }
 
-Node* AVLTree::InsertNode(Node* n, int value)
+Node* AVLTree::Insert(Node* n, int value)
 {
 	if (n == nullptr)
 	{
@@ -55,11 +52,11 @@ Node* AVLTree::InsertNode(Node* n, int value)
 	}
 	else if (value <= n->value)
 	{
-		n->leftChild = InsertNode(n->leftChild, value);
+		n->leftChild = Insert(n->leftChild, value);
 	}
 	else
 	{
-		n->rightChild = InsertNode(n->rightChild, value);
+		n->rightChild = Insert(n->rightChild, value);
 	}
 	n = BalanceNode(n);
 	return n;
@@ -77,14 +74,15 @@ Node* AVLTree::BalanceNode(Node* n)
 	int nVal = n->value;
 	int leftGrandChildVal = n->leftChild ? n->leftChild->value : -1;
 	int rightGrandChildVal = n->rightChild ? n->rightChild->value : -1;
-
+	
 	if (nBalanceFactor > 1)
 	{
-		if (n->leftChild->leftChild != nullptr) // LEFT LEFT
+		bool isLeftLeftCase = (n->leftChild->leftChild != nullptr);
+		if (isLeftLeftCase) // LEFT LEFT
 		{
 			return RightRotation(n);
 		}
-		else if (n->leftChild->rightChild != nullptr) // LEFT RIGHT
+		else // LEFT RIGHT
 		{
 			n->leftChild = LeftRotation(n->leftChild);
 			return RightRotation(n);
@@ -92,40 +90,17 @@ Node* AVLTree::BalanceNode(Node* n)
 	}
 	else if (nBalanceFactor < -1)
 	{
-		if (n->rightChild->rightChild != nullptr) // RIGHT RIGHT
+		bool isRightRightCase = (n->rightChild->rightChild != nullptr);
+		if (isRightRightCase) // RIGHT RIGHT
 		{
-			return RightRotation(n);
+			return LeftRotation(n);
 		}
-		else if (n->rightChild->leftChild != nullptr) // RIGHT LEFT
+		else // RIGHT LEFT
 		{
 			n->rightChild = RightRotation(n->rightChild);
 			return LeftRotation(n);
 		}
 	}
-	/*
-	//Left Left
-	if (nBalanceFactor > 1 && nVal >= leftChildVal)
-	{
-		return RightRotation(n);
-	}
-	//Right Right
-	if (nBalanceFactor < -1 && nVal <= rightChildVal)
-	{
-		return LeftRotation(n);
-	}
-	//Left Right
-	if (nBalanceFactor > 1 && nVal <= leftChildVal)
-	{
-		n->leftChild = LeftRotation(n->leftChild);
-		return RightRotation(n);
-	}
-	//Right Left  
-	if (nBalanceFactor < -1 && nVal >= rightChildVal)
-	{
-		n->rightChild = RightRotation(n->rightChild);
-		return LeftRotation(n);
-	}*/
-
 	return n;
 }
 
@@ -134,7 +109,6 @@ Node * AVLTree::RightRotation(Node * n)
 	Node* a = n->leftChild;
 	n->leftChild = a->rightChild;
 	a->rightChild = n;
-
 	return a;
 }
 
@@ -143,39 +117,53 @@ Node * AVLTree::LeftRotation(Node * n)
 	Node* a = n->rightChild;
 	n->rightChild = a->leftChild;
 	a->leftChild = n;
-
 	return a;
 }
 
-void AVLTree::GetSize(std::string line, std::ofstream & output)
+int AVLTree::GetSize() const
 {
-	output << line << "\t\t" << elements << " elements\n";
+	return elements;
+}
+
+bool AVLTree::Search(int number) const
+{
+	Node* currentNode = root;
+	while (currentNode != nullptr)
+	{
+		if (currentNode->value == number)
+		{
+			return true;
+		}
+		if (number < currentNode->value)
+		{
+			currentNode = currentNode->leftChild;
+		}
+		else
+		{
+			currentNode = currentNode->rightChild;
+		}
+	}
+	return false;
+}
+
+int AVLTree::GetMin() const
+{
+	Node* currentNode = root;
+	if (currentNode != nullptr)
+	{
+		while (currentNode->leftChild != nullptr)
+		{
+			currentNode = currentNode->leftChild;
+		}
+		return currentNode->value;
+	}
+	else
+	{
+		return -1;
+	}
 }
 
 int AVLTree::nodeBalanceFactor(Node * n)
 {
 	return (n->leftChild->height() - n->rightChild->height());
-}
-
-std::string AVLTree::ExtractFilename(std::string s)
-{
-	size_t pos = s.find_last_of("BUILD AVLTREE ");
-	std::string filename = s.substr(pos + 1) + ".txt";
-	return filename;
-}
-
-int AVLTree::ExtractNumber(std::string s)
-{
-	std::string n = "";
-	unsigned int i = 0;
-	while (i <= s.length() - 1)
-	{
-		if (s[i] >= '0' && s[i] <= '9')
-		{
-			n += s[i];
-		}
-		i++;
-	}
-	int number = stoi(n);
-	return number;
 }

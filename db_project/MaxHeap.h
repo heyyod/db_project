@@ -2,27 +2,25 @@
 
 #include <fstream>
 #include <string>
-#include <chrono>
 
 class MaxHeap
 {
 public:
 	~MaxHeap();
-	void BuildMaxHeap(std::string line, std::ofstream& output);
+	void Build(std::string filename);
+	int GetSize() const;
+	int GetMax() const;
+	bool Insert(int number);
+	bool DeleteMax();
+
+private:
 	void Heapify(int size);
 	void Swap(int i, int j);
-	void GetSize(std::string line, std::ofstream& output) const;
-	void GetMax(std::string line, std::ofstream& output) const;
-	void Insert(std::string line, std::ofstream& output);
-	void DeleteMax(std::string line, std::ofstream& output);
-
 	int parent(int i);
 	int leftChild(int parentPos);
 	int rightChild(int parentPos);
 
 private:
-	int ExtractNumber(std::string s);
-	std::string ExtractFilename(std::string s);
 	int currentSize = 0;
 	int maxSize = 0;
 	int *heap = nullptr;

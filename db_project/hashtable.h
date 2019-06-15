@@ -2,14 +2,6 @@
 
 #include <fstream>
 #include <string>
-#include <chrono>
-
-/*
-BUILD HASHTABLE
-SEARCH HASHTABLE number
-INSERT HASHTABLE number
-DELETE HASHTABLE number
-*/
 
 struct cell
 {
@@ -19,22 +11,22 @@ struct cell
 
 class Hashtable
 {
-    public:
-		void BuildHashTable(std::string line, std::ofstream& output);
-		bool Insert(int value, cell* t);
-        void InsertNewNumber(std::string line, std::ofstream& output);
-        void Delete(std::string line, std::ofstream& output);
-		void Search(std::string line, std::ofstream& output);
-		void GetSize(std::string line, std::ofstream& output);
-		int HashFunction(int x, int cap);
-		cell* FindPosOfCell(int i, int x, cell* t);
+public:
+	void Build(std::string filename);
+    bool Insert(int number);
+    bool Delete(int number);
+	bool Search(int number) const;
+	int GetSize() const;
 
-    private:
-		cell *table = nullptr;
-		int elements = 0;
-		int capacity = 0;
-        int bucket = 1572869;
-		std::string ExtractFilename(std::string s);
-		int ExtractNumber(std::string s);
-		void ResizeTable();
+private:
+	bool Insert(int value, cell* t);
+	int HashFunction(int x, int cap) const;
+	cell* FindPosOfCell(int i, int x, cell* t);
+
+private:
+	cell *table = nullptr;
+	int elements = 0;
+	int capacity = 0;
+    int bucket = 1572869;
+	void ResizeTable();
 };

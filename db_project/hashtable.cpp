@@ -1,10 +1,7 @@
 #include "hashtable.h"
 
-void Hashtable::BuildHashTable(std::string line, std::ofstream& output)
+void Hashtable::Build(std::string filename)
 {
-	auto start = std::chrono::steady_clock::now();
-
-	auto filename = ExtractFilename(line);
 	std::ifstream data(filename);
 
 	std::string number = "";
@@ -23,11 +20,6 @@ void Hashtable::BuildHashTable(std::string line, std::ofstream& output)
 		int value = stoi(number);
 		Insert(value, table);
 	}
-
-	auto end = std::chrono::steady_clock::now();
-	std::chrono::duration<double> elapsed_seconds = end - start;
-	double elapsedTime = elapsed_seconds.count() * 1000;
-	output << line << "\t\t" << elapsedTime << " ms\n";
 }
 
 bool Hashtable::Insert(int value, cell* t)
@@ -50,85 +42,59 @@ bool Hashtable::Insert(int value, cell* t)
 }
 
 
-void Hashtable::InsertNewNumber(std::string line, std::ofstream& output)
+bool Hashtable::Insert(int number)
 {
-	auto start = std::chrono::steady_clock::now();
-
-	std::string result = "NUMBER INSERTED SUCCESSFULLY";
-	int x = ExtractNumber(line);
 	double a = elements / capacity;
 	if (a > 0.5)
 	{
 		ResizeTable();
 	}
-	if (!Insert(x, table))
-		result = "NUMBER ALREADY EXISTS";
-	else
-		elements++;
-
-	auto end = std::chrono::steady_clock::now();
-	std::chrono::duration<double> elapsed_seconds = end - start;
-	double elapsedTime = elapsed_seconds.count() * 1000;
-	output << line << "\t\t" << elapsedTime << " ms " << result << "\n";
+	if (Insert(number, table))
+	{
+		return true;
+	}
+	return false;
 }
 
-void Hashtable::Delete(std::string line, std::ofstream& output)
+bool Hashtable::Delete(int number)
 {
-	auto start = std::chrono::steady_clock::now();
-
-	std::string result = "ERROR - NUMBER NOT FOUND";
-	int x = ExtractNumber(line);
-	int index = HashFunction(x, capacity);
+	int index = HashFunction(number, capacity);
 
 	cell* currentCell = &table[index];
 	cell* nextCell = currentCell->right;
 	while (nextCell != nullptr)
 	{
-		if (nextCell->value == x)
+		if (nextCell->value == number)
 		{
-			result = "DELETED SUCCESSFULLY";
 			elements--;
 			currentCell->right = nextCell->right;
 			delete nextCell;
-			break;
+			return true;
 		}
 		currentCell = nextCell->right;
 		nextCell = currentCell->right;
 	}
-
-	auto end = std::chrono::steady_clock::now();
-	std::chrono::duration<double> elapsed_seconds = end - start;
-	double elapsedTime = elapsed_seconds.count() * 1000;
-	output << line << "\t\t" << elapsedTime << " ms " << result << "\n";
+	return false;
 }
 
-void Hashtable::Search(std::string line, std::ofstream & output)
+bool Hashtable::Search(int number) const
 {
-	auto start = std::chrono::steady_clock::now();
-
-	std::string result = "FAILURE";
-	int x = ExtractNumber(line);
-	int index = HashFunction(x, capacity);
+	int index = HashFunction(number, capacity);
 	cell* currentCell = table[index].right;
 	while (currentCell != nullptr)
 	{
-		if (currentCell->value == x)
+		if (currentCell->value == number)
 		{
-			result = "SUCCESS";
-			break;
+			return true;
 		}
 		currentCell = currentCell->right;
 	}
-
-	auto end = std::chrono::steady_clock::now();
-	std::chrono::duration<double> elapsed_seconds = end - start;
-	double elapsedTime = elapsed_seconds.count() * 1000;
-	output << line << "\t\t" << elapsedTime << " ms " << result << "\n";
+	return false;
 }
 
-void Hashtable::GetSize(std::string line, std::ofstream & output)
+int Hashtable::GetSize() const
 {
-	output << line << "\t\t" << elements << " elements\n";
+	return elements;
 }
 
 cell * Hashtable::FindPosOfCell(int i, int x, cell * t)
@@ -148,33 +114,10 @@ cell * Hashtable::FindPosOfCell(int i, int x, cell * t)
 	}
 }
 
-int Hashtable::HashFunction(int x, int cap)
+int Hashtable::HashFunction(int x, int cap) const
 {
 	int i = ((17 * x + 55) % bucket) % cap;
 	return i;
-}
-
-std::string Hashtable::ExtractFilename(std::string s)
-{
-	size_t pos = s.find_last_of("BUILD HASHTABLE ");
-	std::string filename = s.substr(pos + 1) + ".txt";
-	return filename;
-}
-
-int Hashtable::ExtractNumber(std::string s)
-{
-	std::string n = "";
-	unsigned int i = 0;
-	while (i <= s.length() - 1)
-	{
-		if (s[i] >= '0' && s[i] <= '9')
-		{
-			n += s[i];
-		}
-		i++;
-	}
-	int number = stoi(n);
-	return number;
 }
 
 void Hashtable::ResizeTable()

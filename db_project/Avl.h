@@ -4,10 +4,7 @@
 #include <string>
 
 /*
-BUILD
-GETSIZE
 FINDMIN
-SEARCH
 INSERT
 DELETE
 */
@@ -26,19 +23,20 @@ class AVLTree
 {
 public:
 	AVLTree();
-	
-	void BuildAvlTree(std::string line, std::ofstream& output);
-	void InsertNode(std::string line);
-	Node* InsertNode(Node* n, int value);
+	void Build(std::string filename);
+	void Insert(int number);
+	int GetSize() const;
+	bool Search(int number) const;
+	int GetMin() const;
+
+private:
+	Node* Insert(Node* n, int value);
 	Node* BalanceNode(Node* n);
 	Node* RightRotation(Node* n);
 	Node* LeftRotation(Node* n);
-	void GetSize(std::string line, std::ofstream& output);
-	
 	int nodeBalanceFactor(Node* n);
+
 private:
 	Node* root;
 	int elements;
-	std::string ExtractFilename(std::string s);
-	int ExtractNumber(std::string s);
 };
