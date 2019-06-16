@@ -4,12 +4,14 @@ void Graph::Build(std::string filename)
 {
 	std::ifstream data(filename);
 
+	// Calculate the maximum size of elements that are to
+	// be inserted
 	std::string numbers;
 	while (std::getline(data, numbers))
 		maxSize += 2;
-	maxSize += 100;
+	maxSize += 100; // add some extra space
 	
-	delete[] Elements;
+	delete[] Elements; // delete for safety
 	Elements = new Cell[maxSize];
 
 	// Go to the start of the file
@@ -21,25 +23,27 @@ void Graph::Build(std::string filename)
 	{
 		int a, b;
 		ExtractNumbers(numbers, a, b);
-		Connect(a, b);
+		Insert(a, b);
 	}
 }
 
-void Graph::Connect(std::string line)
+void Graph::Insert(std::string line)
 {
 	int a, b;
 	ExtractNumbers(line, a, b);
-	Connect(a, b);
+	Insert(a, b);
 }
 
-void Graph::Connect(int a, int b)
+void Graph::Insert(int a, int b)
 {
 	int indexA = FindIndex(a);
 	int indexB = FindIndex(b);
+	
+	// Add as new node if it does not exist
 	if (indexA == -1)
-		indexA = Insert(a);
+		indexA = AddNode(a);
 	if (indexB == -1)
-		indexB = Insert(b);
+		indexB = AddNode(b);
 	
 	if (indexA != indexB)
 	{
@@ -53,9 +57,9 @@ void Graph::Connect(int a, int b)
 	links++;
 }
 
-int Graph::Insert(int n)
+int Graph::AddNode(int n)
 {
-	// returns the index in which the number was inserted
+	// Returns the index at which the number was inserted
 	nodes++;
 	Elements[nodes - 1].value = n;
 	return (nodes - 1);
@@ -76,7 +80,7 @@ Cell* Graph::AddLink(Cell* cell, int value)
 {
 	if (cell != nullptr)
 	{
-		if (cell->value == value) // connection already exists
+		if (cell->value == value) // link already exists
 		{
 			links--; // just to counter the lines++ in the Connect function
 			return cell;
@@ -101,9 +105,9 @@ bool Graph::Delete(std::string line)
 	if (RemoveLink(Elements[indexA], b))
 	{
 		RemoveLink(Elements[indexB], a);
-		return true;
+		return true; // succesfully removed link
 	}
-	return false;
+	return false; // link does not exist
 }
 
 bool Graph::RemoveLink(Cell& cell, int value)
@@ -114,6 +118,9 @@ bool Graph::RemoveLink(Cell& cell, int value)
 			return RemoveLink(*cell.next, value);
 		else
 		{
+			// We found the link with the value we're looking for
+			// and it's in the next cell from the one we're at now.
+			// We need to remove it from the chain.
 			Cell* temp = cell.next;
 			cell.next = cell.next->next;
 			delete temp;
@@ -135,7 +142,8 @@ void Graph::ExtractNumbers(std::string line, int & a, int & b)
 	std::string n2 = "";
 	unsigned int i = 0;
 	while (line[i] < '0' || line[i] > '9')
-		i++;
+		i++; // find the first char that is a number
+	// save the numbers to seperate strings and convert them to ints
 	while ((i <= line.length() - 1) && (line[i] != ' '))
 	{
 		if (line[i] >= '0' && line[i] <= '9')

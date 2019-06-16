@@ -7,7 +7,6 @@
 COMPUTESHORTESTPATH N1 N2
 COMPUTESPANNINGTREE
 FINDCONNECTEDCOMPONENTS
-DELETE N1 N2
 */
 
 struct Cell
@@ -30,14 +29,14 @@ class Graph
 {
 public:
 	void Build(std::string filename);
-	void Connect(std::string line);
+	void Insert(std::string line);
 	bool Delete(std::string line);
 	void GetSize(int& n, int& l) const;
 	
 private:
-	int Insert(int n);
+	int AddNode(int n);
 	int FindIndex(int n);
-	void Connect(int a, int b);
+	void Insert(int a, int b);
 	Cell* AddLink(Cell* cell, int value);
 	bool RemoveLink(Cell& cell, int value);
 

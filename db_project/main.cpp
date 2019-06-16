@@ -230,7 +230,7 @@ int main()
 		}
 		else if (IsCommand("INSERT GRAPH", line))
 		{
-			graph.Connect(line);
+			graph.Insert(line);
 		}
 		else if (IsCommand("DELETE GRAPH", line))
 		{
