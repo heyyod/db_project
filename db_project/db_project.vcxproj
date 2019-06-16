@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Avl.cpp" />
+    <ClCompile Include="Graph.cpp" />
     <ClCompile Include="hashtable.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MaxHeap.cpp" />
@@ -27,6 +28,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Avl.h" />
+    <ClInclude Include="Graph.h" />
     <ClInclude Include="hashtable.h" />
     <ClInclude Include="MaxHeap.h" />
     <ClInclude Include="MinHeap.h" />

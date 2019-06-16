@@ -4,6 +4,7 @@
 #include "MinHeap.h"
 #include "hashtable.h"
 #include "Avl.h"
+#include "Graph.h"
 
 bool IsCommand(std::string command, std::string line)
 {
@@ -40,10 +41,11 @@ int main()
 	std::ifstream commands("commands.txt");
 	std::ofstream output("output.txt");
 
-	MaxHeap maxH;
-	MinHeap minH;
-	Hashtable hashT;
+	MaxHeap maxHeap;
+	MinHeap minHeap;
+	Hashtable hashTable;
 	AVLTree avlTree;
+	Graph graph;
 
 	std::string line = "";
 	while (std::getline(commands, line))
@@ -57,11 +59,11 @@ int main()
 		if (IsCommand("BUILD MAXHEAP", line))
 		{
 			std::string filename = ExtractFilename("BUILD MAXHEAP ", line);
-			maxH.Build(filename);
+			maxHeap.Build(filename);
 		}
 		else if (IsCommand("INSERT MAXHEAP", line))
 		{
-			if (maxH.Insert(number))
+			if (maxHeap.Insert(number))
 				output << "SUCCESS - ";
 			else
 			{
@@ -71,7 +73,7 @@ int main()
 		}
 		else if (IsCommand("FINDMAX MAXHEAP", line))
 		{
-			int max = maxH.GetMax();
+			int max = maxHeap.GetMax();
 			if (max != -1)
 				output << max;
 			else
@@ -80,7 +82,7 @@ int main()
 		}
 		else if (IsCommand("DELETEMAX MAXHEAP", line))
 		{
-			if (maxH.DeleteMax())
+			if (maxHeap.DeleteMax())
 				output << "SUCCESS - ";
 			else
 			{
@@ -90,7 +92,7 @@ int main()
 		}
 		else if (IsCommand("GETSIZE MAXHEAP", line))
 		{
-			int size = maxH.GetSize();
+			int size = maxHeap.GetSize();
 			output << size << " ELEMENTS";
 			continue;
 		}
@@ -99,11 +101,11 @@ int main()
 		else if (IsCommand("BUILD MINHEAP", line))
 		{
 			std::string filename = ExtractFilename("BUILD MINHEAP ", line);
-			minH.Build(filename);
+			minHeap.Build(filename);
 		}
 		else if (IsCommand("INSERT MINHEAP", line))
 		{
-			if (minH.Insert(number))
+			if (minHeap.Insert(number))
 				output << "SUCCESS - ";
 			else
 			{
@@ -113,7 +115,7 @@ int main()
 		}
 		else if (IsCommand("FINDMIN MINHEAP", line))
 		{
-			int min = minH.GetMin();
+			int min = minHeap.GetMin();
 			if (min != -1)
 				output << min;
 			else
@@ -122,7 +124,7 @@ int main()
 		}
 		else if (IsCommand("DELETEMIN MINHEAP", line))
 		{
-			if (minH.DeleteMin())
+			if (minHeap.DeleteMin())
 				output << "SUCCESS - ";
 			else
 			{
@@ -132,7 +134,7 @@ int main()
 		}
 		else if (IsCommand("GETSIZE MINHEAP", line))
 		{
-			int size = minH.GetSize();
+			int size = minHeap.GetSize();
 			output << size << " ELEMENTS - ";
 			continue;
 		}
@@ -141,32 +143,32 @@ int main()
 		else if (IsCommand("BUILD HASHTABLE", line))
 		{
 			std::string filename = ExtractFilename("BUILD HASHTABLE ", line);
-			hashT.Build(filename);
+			hashTable.Build(filename);
 		}
 		else if (IsCommand("INSERT HASHTABLE", line))
 		{
-			if (hashT.Insert(number))
+			if (hashTable.Insert(number))
 				output << "SUCCESS - ";
 			else
 				output << "NUMBER ALREADY EXISTS - ";
 		}
 		else if (IsCommand("DELETE HASHTABLE", line))
 		{
-			if (hashT.Delete(number))
+			if (hashTable.Delete(number))
 				output << "SUCCESS - ";
 			else
 				output << "NUMBER NOT FOUND - ";
 		}
 		else if (IsCommand("SEARCH HASHTABLE", line))
 		{
-			if (hashT.Search(number))
+			if (hashTable.Search(number))
 				output << "SUCCESS - ";
 			else
 				output << "NUMBER NOT FOUND - ";
 		}
 		else if (IsCommand("GETSIZE HASHTABLE", line))
 		{
-			int size = hashT.GetSize();
+			int size = hashTable.GetSize();
 			output << size << " ELEMENTS - ";
 			continue;
 		}
@@ -211,6 +213,31 @@ int main()
 			int size = avlTree.GetSize();
 			output << size << " ELEMENTS";
 			continue;
+		}
+
+		//~~~~~~~~~~~~~~~ GRAPH ~~~~~~~~~~~~~~~
+		else if (IsCommand("BUILD GRAPH", line))
+		{
+			std::string filename = ExtractFilename("BUILD GRAPH ", line);
+			graph.Build(filename);
+		}
+		else if (IsCommand("GETSIZE GRAPH", line))
+		{
+			int nodes, links;
+			graph.GetSize(nodes, links);
+			output << nodes << " NODE, " << links << " LINKS";
+			continue;
+		}
+		else if (IsCommand("INSERT GRAPH", line))
+		{
+			graph.Connect(line);
+		}
+		else if (IsCommand("DELETE GRAPH", line))
+		{
+			if (graph.Delete(line))
+				output << "SUCCESS - ";
+			else
+				output << "NUMBERS OR LINK NOT FOUND - ";
 		}
 
 		auto end = std::chrono::steady_clock::now();
