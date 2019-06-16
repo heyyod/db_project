@@ -5,15 +5,19 @@ MaxHeap::~MaxHeap()
 	delete [] heap;
 }
 
-void MaxHeap::Build(std::string filename)
+bool MaxHeap::Build(std::string filename)
 {
 	std::ifstream data(filename);
+	if (!data)
+		return false;
+	
+	// count the elements
 	std::string number = "";
 	while (std::getline(data, number))
 		currentSize++;
 
 	maxSize = currentSize + 100;
-	delete[] heap;
+	delete[] heap; // delete for safety
 	heap = new int[maxSize];
 
 	// Go to the start of the file
@@ -29,9 +33,9 @@ void MaxHeap::Build(std::string filename)
 		heap[i] = element;
 		i++;
 	}
-
 	for (int i = currentSize / 2; i >= 1; i--)
 		Heapify(i);
+	return true;
 }
 
 bool MaxHeap::Insert(int number)

@@ -28,9 +28,12 @@ AVLTree::AVLTree()
 	elements = 0;
 }
 
-void AVLTree::Build(std::string filename)
+bool AVLTree::Build(std::string filename)
 {
 	std::ifstream data(filename);
+	if (!data)
+		return false;
+
 	std::string number;
 	while (std::getline(data, number))
 	{

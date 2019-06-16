@@ -11,7 +11,7 @@ struct cell
 class Hashtable
 {
 public:
-	void Build(std::string filename);
+	bool Build(std::string filename);
     bool Insert(int number);
     bool Delete(int number);
 	bool Search(int number) const;

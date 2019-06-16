@@ -6,7 +6,7 @@ class MaxHeap
 {
 public:
 	~MaxHeap();
-	void Build(std::string filename);
+	bool Build(std::string filename);
 	bool Insert(int number);
 	bool DeleteMax();
 	int GetSize() const;

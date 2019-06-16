@@ -5,9 +5,11 @@ MinHeap::~MinHeap()
 	delete[] heap;
 }
 
-void MinHeap::Build(std::string filename)
+bool MinHeap::Build(std::string filename)
 {
 	std::ifstream data(filename);
+	if (!data)
+		return false;
 
 	//count the elements
 	std::string number = "";
@@ -32,9 +34,8 @@ void MinHeap::Build(std::string filename)
 		i++;
 	}
 	for (int i = currentSize / 2; i >= 1; i--)
-	{
 		Heapify(i);
-	}
+	return true;
 }
 
 bool MinHeap::Insert(int number)

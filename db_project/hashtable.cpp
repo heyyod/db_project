@@ -1,15 +1,17 @@
 #include "hashtable.h"
 
-void Hashtable::Build(std::string filename)
+bool Hashtable::Build(std::string filename)
 {
 	std::ifstream data(filename);
+	if (!data)
+		return false;
 
 	// Count the number of elements
 	std::string number = "";
 	while (std::getline(data, number))
 		elements++;
 
-	capacity = 2 * elements + 1000;
+	capacity = 2 * elements + 100;
 	delete[] table; // delete for safety
 	table = new cell[capacity];
 
@@ -22,6 +24,7 @@ void Hashtable::Build(std::string filename)
 		int value = stoi(number);
 		Insert(value, table);
 	}
+	return true;
 }
 
 bool Hashtable::Insert(int number)

@@ -6,7 +6,7 @@ class MinHeap
 {
 public:
 	~MinHeap();
-	void Build(std::string filename);
+	bool Build(std::string filename);
 	int GetSize() const;
 	int GetMin() const;
 	bool Insert(int number);

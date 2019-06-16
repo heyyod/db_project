@@ -16,7 +16,7 @@ class AVLTree
 {
 public:
 	AVLTree();
-	void Build(std::string filename);
+	bool Build(std::string filename);
 	void Insert(int number);
 	bool Delete(int number);
 	bool Search(int number) const;

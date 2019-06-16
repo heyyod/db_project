@@ -27,7 +27,7 @@ struct Cell
 class Graph
 {
 public:
-	void Build(std::string filename);
+	bool Build(std::string filename);
 	void Insert(std::string line);
 	bool Delete(std::string line);
 	void GetSize(int& n, int& l) const;

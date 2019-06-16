@@ -14,7 +14,7 @@ bool IsCommand(std::string command, std::string line)
 std::string ExtractFilename(std::string command, std::string line)
 {
 	size_t pos = line.find_last_of(command);
-	std::string filename = line.substr(pos + 1) + ".txt";
+	std::string filename = line.substr(pos + 1);
 	return filename;
 }
 
@@ -38,8 +38,14 @@ int ExtractNumber(std::string line)
 
 int main()
 {
-	std::ifstream commands("commands.txt");
+	std::ifstream commands("commands.txt");		
 	std::ofstream output("output.txt");
+	if (!commands)
+	{
+		output << "ERROR:\tCOMMAND FILE NOT FOUND" << std::endl;
+		output << "HINT:\tFILE SHOULD BE IN THE SAME FOLDER AS THE EXECUTABLE NAMED \"commands.txt\"" << std::endl;
+		return 0;
+	}
 
 	MaxHeap maxHeap;
 	MinHeap minHeap;
@@ -59,7 +65,13 @@ int main()
 		if (IsCommand("BUILD MAXHEAP", line))
 		{
 			std::string filename = ExtractFilename("BUILD MAXHEAP ", line);
-			maxHeap.Build(filename);
+			if (maxHeap.Build(filename))
+				output << "SUCCESS - ";
+			else
+			{
+				output << "FILE NOT FOUND. MAKE SURE IT IS A .txt LOCATED IN THE FOLDER OF THE EXECUTABLE";
+				continue;
+			}
 		}
 		else if (IsCommand("INSERT MAXHEAP", line))
 		{
@@ -101,7 +113,13 @@ int main()
 		else if (IsCommand("BUILD MINHEAP", line))
 		{
 			std::string filename = ExtractFilename("BUILD MINHEAP ", line);
-			minHeap.Build(filename);
+			if (minHeap.Build(filename))
+				output << "SUCCESS - ";
+			else
+			{
+				output << "FILE NOT FOUND. MAKE SURE IT IS A .txt LOCATED IN THE FOLDER OF THE EXECUTABLE";
+				continue;
+			}
 		}
 		else if (IsCommand("INSERT MINHEAP", line))
 		{
@@ -143,7 +161,13 @@ int main()
 		else if (IsCommand("BUILD HASHTABLE", line))
 		{
 			std::string filename = ExtractFilename("BUILD HASHTABLE ", line);
-			hashTable.Build(filename);
+			if (hashTable.Build(filename))
+				output << "SUCCESS - ";
+			else
+			{
+				output << "FILE NOT FOUND. MAKE SURE IT IS A .txt LOCATED IN THE FOLDER OF THE EXECUTABLE";
+				continue;
+			}
 		}
 		else if (IsCommand("INSERT HASHTABLE", line))
 		{
@@ -177,7 +201,13 @@ int main()
 		else if (IsCommand("BUILD AVLTREE", line))
 		{
 			std::string filename = ExtractFilename("BUILD AVLTREE ", line);
-			avlTree.Build(filename);
+			if (avlTree.Build(filename))
+				output << "SUCCESS - ";
+			else
+				{
+				output << "FILE NOT FOUND. MAKE SURE IT IS A .txt LOCATED IN THE FOLDER OF THE EXECUTABLE";
+				continue;
+				}
 		}
 		else if (IsCommand("FINDMIN AVLTREE", line))
 		{
@@ -219,7 +249,13 @@ int main()
 		else if (IsCommand("BUILD GRAPH", line))
 		{
 			std::string filename = ExtractFilename("BUILD GRAPH ", line);
-			graph.Build(filename);
+			if (graph.Build(filename))
+				output << "SUCCESS - ";
+			else
+			{
+				output << "FILE NOT FOUND. MAKE SURE IT IS A .txt LOCATED IN THE FOLDER OF THE EXECUTABLE";
+				continue;
+			}
 		}
 		else if (IsCommand("GETSIZE GRAPH", line))
 		{

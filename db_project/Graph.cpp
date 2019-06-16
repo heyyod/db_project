@@ -1,8 +1,10 @@
 #include "Graph.h"
 
-void Graph::Build(std::string filename)
+bool Graph::Build(std::string filename)
 {
 	std::ifstream data(filename);
+	if (!data)
+		return false;
 
 	// Calculate the maximum size of elements that are to
 	// be inserted
@@ -25,6 +27,7 @@ void Graph::Build(std::string filename)
 		ExtractNumbers(numbers, a, b);
 		Insert(a, b);
 	}
+	return true;
 }
 
 void Graph::Insert(std::string line)
