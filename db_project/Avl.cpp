@@ -7,6 +7,8 @@ Node::Node(int v, Node * l, Node * r)
 	rightChild = r;
 }
 
+// Recursive function that calculates the current
+// height of a node at any time
 int Node::height()
 {
 	int h = 0;
@@ -29,7 +31,6 @@ AVLTree::AVLTree()
 void AVLTree::Build(std::string filename)
 {
 	std::ifstream data(filename);
-
 	std::string number;
 	while (std::getline(data, number))
 	{
@@ -41,15 +42,12 @@ void AVLTree::Build(std::string filename)
 void AVLTree::Insert(int number)
 {
 	root = Insert(root, number);
-	elements += 1;
 }
 
 bool AVLTree::Delete(int number)
 {
 	bool found = false;
 	root = Delete(root, number, found);
-	if(found)
-		elements -= 1;
 	return found;
 }
 
@@ -69,12 +67,13 @@ Node* AVLTree::Insert(Node* n, int value)
 		n->rightChild = Insert(n->rightChild, value);
 	}
 	n = BalanceNode(n);
+	elements++;
 	return n;
 }
 
 Node * AVLTree::Delete(Node* n, int value, bool& found)
 {
-	Node* temp = nullptr;
+	Node* temp = nullptr; // we'll save the node we need to delete here.
 	if (n != nullptr)
 	{
 		if (value < n->value)
@@ -85,11 +84,14 @@ Node * AVLTree::Delete(Node* n, int value, bool& found)
 		{
 			if (n->leftChild == nullptr && n->rightChild == nullptr) // No children
 			{
+				// Since the node is a leaf we can just delete it.
 				temp = n;
 				n = nullptr;
 			}
 			else if (n->leftChild != nullptr && n->rightChild == nullptr) // Left child only
 			{
+				// When the node only has on child, it replaces its parent
+				// that is going to get deleted
 				Node* leftChild = n->leftChild;
 				temp = n;
 				n = leftChild;
@@ -102,12 +104,16 @@ Node * AVLTree::Delete(Node* n, int value, bool& found)
 			}
 			else // Left and Right child
 			{
+				// When the node has two children we can replace it with
+				// the minimum node of its right subtree
+				// After we need to delete the node tha we brought up.
 				Node* replacingNode = MinNode(n->rightChild);
 				n->value = replacingNode->value;
 				n->rightChild = Delete(n->rightChild, replacingNode->value, found);
 			}
-			delete temp;
 			found = true;
+			elements--;
+			delete temp;
 		}
 	}
 	n = BalanceNode(n);
@@ -120,14 +126,13 @@ Node* AVLTree::BalanceNode(Node* n)
 		return n;
 
 	int nBalanceFactor = nodeBalanceFactor(n);
-
 	if (nBalanceFactor >= -1 && nBalanceFactor <= 1)
-	{
-		return n;
-	}
+		return n; // Node already balanced
 
-	if (nBalanceFactor > 1)
+	if (nBalanceFactor > 1) // Height greater on the left subtree
 	{
+		// Now we need to calculate the balance factor of the child
+		// so that we know what rotations we need to do
 		int leftBalanceFactor = nodeBalanceFactor(n->leftChild);
 		if (leftBalanceFactor >= 0) // LEFT LEFT
 		{
@@ -139,7 +144,7 @@ Node* AVLTree::BalanceNode(Node* n)
 			return RightRotation(n);
 		}
 	}
-	else if (nBalanceFactor < -1)
+	else if (nBalanceFactor < -1) // Height greater on the right subtree
 	{
 		int rightBalanceFactor = nodeBalanceFactor(n->rightChild);
 		if (rightBalanceFactor <= 0) // RIGHT RIGHT
@@ -157,6 +162,7 @@ Node* AVLTree::BalanceNode(Node* n)
 
 Node * AVLTree::RightRotation(Node * n)
 {
+
 	Node* a = n->leftChild;
 	n->leftChild = a->rightChild;
 	a->rightChild = n;
@@ -173,19 +179,17 @@ Node * AVLTree::LeftRotation(Node * n)
 
 Node * AVLTree::MinNode(Node * n) const
 {
+	// We navigate to the far left of the tree that
+	// has root n
 	Node* currentNode = n;
 	if (currentNode != nullptr)
 	{
 		while (currentNode->leftChild != nullptr)
-		{
 			currentNode = currentNode->leftChild;
-		}
 		return currentNode;
 	}
 	else
-	{
 		return n;
-	}
 }
 
 int AVLTree::GetSize() const
@@ -195,21 +199,17 @@ int AVLTree::GetSize() const
 
 bool AVLTree::Search(int number) const
 {
+	// Starting from the root, we try to find the number
+	// moving down the tree
 	Node* currentNode = root;
 	while (currentNode != nullptr)
 	{
 		if (currentNode->value == number)
-		{
 			return true;
-		}
 		if (number < currentNode->value)
-		{
 			currentNode = currentNode->leftChild;
-		}
 		else
-		{
 			currentNode = currentNode->rightChild;
-		}
 	}
 	return false;
 }
@@ -218,9 +218,7 @@ int AVLTree::GetMin() const
 {
 	Node* minNode = MinNode(root);
 	if (minNode != nullptr)
-	{
 		return minNode->value;
-	}
 	return -1;
 }
 

@@ -1,13 +1,6 @@
 #pragma once
-
 #include <fstream>
 #include <string>
-
-/*
-FINDMIN
-INSERT
-DELETE
-*/
 
 struct Node
 {

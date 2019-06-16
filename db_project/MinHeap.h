@@ -1,5 +1,4 @@
 #pragma once
-
 #include <fstream>
 #include <string>
 
@@ -16,9 +15,9 @@ public:
 private:
 	void Heapify(int size);
 	void Swap(int i, int j);
-	int parent(int i);
-	int leftChild(int parentPos);
-	int rightChild(int parentPos);
+	int parent(int i) const;
+	int leftChild(int parentPos) const;
+	int rightChild(int parentPos) const;
 
 private:
 	int currentSize = 0;

@@ -1,5 +1,4 @@
 #pragma once
-
 #include <fstream>
 #include <string>
 
@@ -21,12 +20,11 @@ public:
 private:
 	bool Insert(int value, cell* t);
 	int HashFunction(int x, int cap) const;
-	cell* FindPosOfCell(int i, int x, cell* t);
+	void ResizeTable();
 
 private:
 	cell *table = nullptr;
 	int elements = 0;
 	int capacity = 0;
     int bucket = 1572869;
-	void ResizeTable();
 };

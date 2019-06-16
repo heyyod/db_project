@@ -4,22 +4,34 @@ void Hashtable::Build(std::string filename)
 {
 	std::ifstream data(filename);
 
+	// Count the number of elements
 	std::string number = "";
 	while (std::getline(data, number))
 		elements++;
 
 	capacity = 2 * elements + 1000;
+	delete[] table; // delete for safety
 	table = new cell[capacity];
 
+	// Go to the start of the file
 	data.clear();
 	data.seekg(0, std::ios_base::beg);
 
 	while (std::getline(data, number))
 	{
-
 		int value = stoi(number);
 		Insert(value, table);
 	}
+}
+
+bool Hashtable::Insert(int number)
+{
+	double a = elements / capacity;
+	if (a > 0.5)
+		ResizeTable();
+	if (Insert(number, table))
+		return true;
+	return false;
 }
 
 bool Hashtable::Insert(int value, cell* t)
@@ -41,25 +53,12 @@ bool Hashtable::Insert(int value, cell* t)
 	return true;
 }
 
-
-bool Hashtable::Insert(int number)
-{
-	double a = elements / capacity;
-	if (a > 0.5)
-	{
-		ResizeTable();
-	}
-	if (Insert(number, table))
-	{
-		return true;
-	}
-	return false;
-}
-
 bool Hashtable::Delete(int number)
 {
+	// Going down the chain of numbers at a particular
+	// index, we check if there is the number we are
+	// looking for. If so, we remove it from the chain.
 	int index = HashFunction(number, capacity);
-
 	cell* currentCell = &table[index];
 	cell* nextCell = currentCell->right;
 	while (nextCell != nullptr)
@@ -79,14 +78,15 @@ bool Hashtable::Delete(int number)
 
 bool Hashtable::Search(int number) const
 {
+	// Going down the chain of numbers at a particular
+	// index, we check if there is the number we are
+	// looking for.
 	int index = HashFunction(number, capacity);
 	cell* currentCell = table[index].right;
 	while (currentCell != nullptr)
 	{
 		if (currentCell->value == number)
-		{
 			return true;
-		}
 		currentCell = currentCell->right;
 	}
 	return false;
@@ -97,23 +97,6 @@ int Hashtable::GetSize() const
 	return elements;
 }
 
-cell * Hashtable::FindPosOfCell(int i, int x, cell * t)
-{
-	if (t[i].right == nullptr)
-		return t[i].right;
-	else
-	{
-		cell* currentCell = t[i].right;
-		while (currentCell->right != nullptr)
-		{
-			if (currentCell->value == x)
-				return currentCell;
-			currentCell = currentCell->right;
-		}
-		return currentCell;
-	}
-}
-
 int Hashtable::HashFunction(int x, int cap) const
 {
 	int i = ((17 * x + 55) % bucket) % cap;
@@ -122,9 +105,13 @@ int Hashtable::HashFunction(int x, int cap) const
 
 void Hashtable::ResizeTable()
 {
-	int newCapacity = 2 * capacity;
-	cell *temp = new cell[newCapacity];
-	for (int i = 0; i < capacity; i++)
+	// For every element in the original table we insert
+	// it in a new table using the new capacity and hence
+	// the new result of the hash function
+	int oldCapacity = capacity;
+	capacity *= 2;
+	cell *temp = new cell[capacity];
+	for (int i = 0; i < oldCapacity; i++)
 	{
 		cell* currentCell = table[i].right;
 		while (currentCell != nullptr)
@@ -134,7 +121,6 @@ void Hashtable::ResizeTable()
 			currentCell = currentCell->right;
 		}
 	}
-	capacity = newCapacity;
 	delete[] table;
 	table = temp;
 }

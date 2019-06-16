@@ -1,5 +1,4 @@
 #pragma once
-
 #include <fstream>
 #include <string>
 
@@ -8,10 +7,10 @@ class MaxHeap
 public:
 	~MaxHeap();
 	void Build(std::string filename);
-	int GetSize() const;
-	int GetMax() const;
 	bool Insert(int number);
 	bool DeleteMax();
+	int GetSize() const;
+	int GetMax() const;
 
 private:
 	void Heapify(int size);

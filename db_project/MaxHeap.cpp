@@ -16,6 +16,7 @@ void MaxHeap::Build(std::string filename)
 	delete[] heap;
 	heap = new int[maxSize];
 
+	// Go to the start of the file
 	data.clear();
 	data.seekg(0, std::ios_base::beg);
 
@@ -24,62 +25,16 @@ void MaxHeap::Build(std::string filename)
 	int i = 1;
 	while (std::getline(data, number))
 	{
-		int element = (int) std::stoi(number);
+		int element = std::stoi(number);
 		heap[i] = element;
 		i++;
 	}
 
 	for (int i = currentSize / 2; i >= 1; i--)
-	{
 		Heapify(i);
-	}
 }
 
-void MaxHeap::Heapify(int level)
-{
-	int parent = heap[level];
-	int leftPos = leftChild(level);
-	int rightPos = rightChild(level);
-	int maxPos = level;
-	
-	if (leftPos <= currentSize)
-	{
-		if (parent < heap[leftPos])
-			maxPos = leftPos;
-
-		if (rightPos <= currentSize)
-			if (heap[maxPos] < heap[rightPos])
-				maxPos = rightPos;
-	}
-
-	if (maxPos != level)
-	{
-		Swap(maxPos, level);
-		Heapify(maxPos);
-	}	
-}
-
-void MaxHeap::Swap(int i, int j)
-{
-	int temp = heap[i];
-	heap[i] = heap[j];
-	heap[j] = temp;
-}
-
-int MaxHeap::GetSize() const
-{
-	return currentSize;
-}
-
-int MaxHeap::GetMax() const
-{
-	if (currentSize > 0)
-		return heap[1];
-	else
-		return -1;
-}
-
-bool MaxHeap::Insert(int number) //TODO: change parametre to string
+bool MaxHeap::Insert(int number)
 {
 	if (currentSize < maxSize)
 	{
@@ -96,7 +51,7 @@ bool MaxHeap::Insert(int number) //TODO: change parametre to string
 }
 
 bool MaxHeap::DeleteMax()
-{	
+{
 	if (currentSize > 0)
 	{
 		int temp = heap[currentSize--];
@@ -112,12 +67,10 @@ bool MaxHeap::DeleteMax()
 			{
 				if (temp < heap[leftC])
 					newPos = leftC;
-
 				if (rightC <= currentSize)
 					if (heap[leftC] < heap[rightC])
 						newPos = rightC;
 			}
-
 			if (newPos != tempPos)
 			{
 				Swap(tempPos, newPos);
@@ -129,6 +82,48 @@ bool MaxHeap::DeleteMax()
 		return true;
 	}
 	return false;
+}
+
+int MaxHeap::GetSize() const
+{
+	return currentSize;
+}
+
+int MaxHeap::GetMax() const
+{
+	if (currentSize > 0)
+		return heap[1];
+	else
+		return -1;
+}
+
+void MaxHeap::Heapify(int level)
+{
+	int parent = heap[level];
+	int leftPos = leftChild(level);
+	int rightPos = rightChild(level);
+	int maxPos = level;
+	
+	if (leftPos <= currentSize)
+	{
+		if (parent < heap[leftPos])
+			maxPos = leftPos;
+		if (rightPos <= currentSize)
+			if (heap[maxPos] < heap[rightPos])
+				maxPos = rightPos;
+	}
+	if (maxPos != level)
+	{
+		Swap(maxPos, level);
+		Heapify(maxPos);
+	}	
+}
+
+void MaxHeap::Swap(int i, int j)
+{
+	int temp = heap[i];
+	heap[i] = heap[j];
+	heap[j] = temp;
 }
 
 int MaxHeap::parent(int i)

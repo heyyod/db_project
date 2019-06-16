@@ -9,14 +9,16 @@ void MinHeap::Build(std::string filename)
 {
 	std::ifstream data(filename);
 
+	//count the elements
 	std::string number = "";
 	while (std::getline(data, number))
 		currentSize++;
 
 	maxSize = currentSize + 100;
-	delete[] heap;
+	delete[] heap; // delete for safety
 	heap = new int[maxSize];
 
+	//Go to start of file
 	data.clear();
 	data.seekg(0, std::ios_base::beg);
 
@@ -29,64 +31,18 @@ void MinHeap::Build(std::string filename)
 		heap[i] = element;
 		i++;
 	}
-
 	for (int i = currentSize / 2; i >= 1; i--)
 	{
 		Heapify(i);
 	}
 }
 
-void MinHeap::Heapify(int level)
-{
-	int parent = heap[level];
-	int leftPos = leftChild(level);
-	int rightPos = rightChild(level);
-	int minPos = level;
-
-	if (leftPos <= currentSize)
-	{
-		if (parent > heap[leftPos])
-			minPos = leftPos;
-
-		if (rightPos <= currentSize)
-			if (heap[minPos] > heap[rightPos])
-				minPos = rightPos;
-	}
-
-	if (minPos != level)
-	{
-		Swap(minPos, level);
-		Heapify(minPos);
-	}
-}
-
-void MinHeap::Swap(int i, int j)
-{
-	int temp = heap[i];
-	heap[i] = heap[j];
-	heap[j] = temp;
-}
-
-int MinHeap::GetSize() const
-{
-	return currentSize;
-}
-
-int MinHeap::GetMin() const
-{
-	if (currentSize > 0)
-		return heap[1];
-	else
-		return -1;
-}
-
-bool MinHeap::Insert(int number) //TODO: change parametre to string
+bool MinHeap::Insert(int number)
 {
 	if (currentSize < maxSize)
 	{
 		int pos = ++currentSize;
 		heap[pos] = number;
-
 		while (pos > 1 && heap[parent(pos)] > heap[pos])
 		{
 			Swap(pos, parent(pos));
@@ -114,7 +70,6 @@ bool MinHeap::DeleteMin()
 			{
 				if (temp > heap[leftC])
 					newPos = leftC;
-
 				if (rightC <= currentSize)
 					if (heap[leftC] > heap[rightC])
 						newPos = rightC;
@@ -133,17 +88,59 @@ bool MinHeap::DeleteMin()
 	return false;
 }
 
-int MinHeap::parent(int i)
+int MinHeap::GetSize() const
+{
+	return currentSize;
+}
+
+int MinHeap::GetMin() const
+{
+	if (currentSize > 0)
+		return heap[1];
+	else
+		return -1;
+}
+
+void MinHeap::Heapify(int level)
+{
+	int parent = heap[level];
+	int leftPos = leftChild(level);
+	int rightPos = rightChild(level);
+	int minPos = level;
+
+	if (leftPos <= currentSize)
+	{
+		if (parent > heap[leftPos])
+			minPos = leftPos;
+		if (rightPos <= currentSize)
+			if (heap[minPos] > heap[rightPos])
+				minPos = rightPos;
+	}
+	if (minPos != level)
+	{
+		Swap(minPos, level);
+		Heapify(minPos);
+	}
+}
+
+void MinHeap::Swap(int i, int j)
+{
+	int temp = heap[i];
+	heap[i] = heap[j];
+	heap[j] = temp;
+}
+
+int MinHeap::parent(int i) const
 {
 	return i / 2;
 }
 
-int MinHeap::leftChild(int parentPos)
+int MinHeap::leftChild(int parentPos) const
 {
 	return 2 * parentPos;
 }
 
-int MinHeap::rightChild(int parentPos)
+int MinHeap::rightChild(int parentPos) const
 {
 	return (2 * parentPos) + 1;
 }
