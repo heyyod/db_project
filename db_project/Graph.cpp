@@ -30,14 +30,14 @@ bool Graph::Build(std::string filename)
 	return true;
 }
 
-void Graph::Insert(std::string line)
+bool Graph::Insert(std::string line)
 {
 	int a, b;
 	ExtractNumbers(line, a, b);
-	Insert(a, b);
+	return Insert(a, b);
 }
 
-void Graph::Insert(int a, int b)
+bool Graph::Insert(int a, int b)
 {
 	int indexA = FindIndex(a);
 	int indexB = FindIndex(b);
@@ -47,6 +47,10 @@ void Graph::Insert(int a, int b)
 		indexA = AddNode(a);
 	if (indexB == -1)
 		indexB = AddNode(b);
+	if (indexA == -2 || indexB == -2)
+	{
+		return false;
+	}
 	
 	if (indexA != indexB)
 	{
@@ -58,14 +62,19 @@ void Graph::Insert(int a, int b)
 		Elements[indexA].next = AddLink(Elements[indexA].next, b);
 	}
 	links++;
+	return true;
 }
 
 int Graph::AddNode(int n)
 {
 	// Returns the index at which the number was inserted
-	nodes++;
-	Elements[nodes - 1].value = n;
-	return (nodes - 1);
+	if (nodes < maxSize - 1)
+	{
+		nodes++;
+		Elements[nodes - 1].value = n;
+		return (nodes - 1);
+	}
+	return -2; // Our table is full and we cannot insert any more nodes.
 }
 
 int Graph::FindIndex(int n)
@@ -108,6 +117,7 @@ bool Graph::Delete(std::string line)
 	if (RemoveLink(Elements[indexA], b))
 	{
 		RemoveLink(Elements[indexB], a);
+		links--;
 		return true; // succesfully removed link
 	}
 	return false; // link does not exist
@@ -133,10 +143,43 @@ bool Graph::RemoveLink(Cell& cell, int value)
 	return false;
 }
 
+void Graph::DepthFirstSearch(int index, bool* visited)
+{
+	visited[index] = true;
+	Cell* neighbour = Elements[index].next;
+	while (neighbour != nullptr)
+	{
+		int neighbourIndex = FindIndex(neighbour->value);
+		if (!visited[neighbourIndex])
+		{
+			DepthFirstSearch(neighbourIndex, visited);
+		}
+		neighbour = neighbour->next;
+	}
+}
+
 void Graph::GetSize(int & n, int & l) const
 {
 	n = nodes;
 	l = links;
+}
+
+int Graph::ConnectedComponents()
+{
+	int components = 0;
+	bool* visited = new bool[nodes];
+	for (int i = 0; i < nodes; i++)
+		visited[i] = false;
+
+	for (int i = 0; i < nodes; i++)
+	{
+		if (!visited[i])
+		{
+			DepthFirstSearch(i, visited);
+			components++;
+		}
+	}
+	return components;
 }
 
 void Graph::ExtractNumbers(std::string line, int & a, int & b)

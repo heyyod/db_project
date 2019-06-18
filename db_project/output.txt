@@ -1,6 +1,7 @@
-
-BUILD GRAPH graphdata.tx		FILE NOT FOUND. MAKE SURE IT IS A .txt LOCATED IN THE FOLDER OF THE EXECUTABLE
-GETSIZE GRAPH		0 NODE, 0 LINKS
-DELETE GRAPH 15 20		NUMBERS OR LINK NOT FOUND - 0.3077 ms
-DELETE GRAPH 100 300		NUMBERS OR LINK NOT FOUND - 0.2715 ms
-DELETE GRAPH 3 50		NUMBERS OR LINK NOT FOUND - 0.2452 ms
+COMMAND                                           RESULT
+BUILD GRAPH graphdata.txt.........................SUCCESS - 1.1141 ms
+GETSIZE GRAPH.....................................9 NODE, 7 LINKS
+FINDCONNECTEDCOMPONENTS GRAPH.....................2 - 0.294 ms
+INSERT GRAPH 1 2..................................SUCCESS - 0.2858 ms
+GETSIZE GRAPH.....................................11 NODE, 8 LINKS
+FINDCONNECTEDCOMPONENTS GRAPH.....................3 - 0.2916 ms

@@ -53,13 +53,20 @@ int main()
 	AVLTree avlTree;
 	Graph graph;
 
+	output << "COMMAND                                           RESULT";
 	std::string line = "";
 	while (std::getline(commands, line))
 	{
-		auto start = std::chrono::steady_clock::now();
+		// Just some formating for the output
+		output << std::endl << line;
+		std::string space = "";
+		for (int i = 0; i < (50 - line.length()); i++)
+			space += '.';
+		output << space;
 
+		auto start = std::chrono::steady_clock::now();
+		
 		int number = ExtractNumber(line);
-		output << std::endl << line << "\t\t";
 		
 		//~~~~~~~~~~~~~~~ MAX HEAP ~~~~~~~~~~~~~~~
 		if (IsCommand("BUILD MAXHEAP", line))
@@ -137,7 +144,7 @@ int main()
 			if (min != -1)
 				output << min;
 			else
-			output << "HEAP IS EMPTY";
+				output << "HEAP IS EMPTY";
 			continue;
 		}
 		else if (IsCommand("DELETEMIN MINHEAP", line))
@@ -266,7 +273,10 @@ int main()
 		}
 		else if (IsCommand("INSERT GRAPH", line))
 		{
-			graph.Insert(line);
+			if (graph.Insert(line))
+				output << "SUCCESS - ";
+			else
+				output << "COULD NOT INSERT NEW NODE";
 		}
 		else if (IsCommand("DELETE GRAPH", line))
 		{
@@ -274,6 +284,21 @@ int main()
 				output << "SUCCESS - ";
 			else
 				output << "NUMBERS OR LINK NOT FOUND - ";
+		}
+		else if (IsCommand("FINDCONNECTEDCOMPONENTS GRAPH", line))
+		{
+			int components = graph.ConnectedComponents();
+			output << components << " - ";
+		}
+		else if (IsCommand("COMPUTESHORTESTPATH GRAPH", line))
+		{
+			output << "NOT SUPPORTED";
+			continue;
+		}
+		else if (IsCommand("COMPUTESPANNINGTREE GRAPH", line))
+		{
+			output << "NOT SUPPORTED";
+			continue;
 		}
 
 		auto end = std::chrono::steady_clock::now();

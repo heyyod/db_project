@@ -28,16 +28,18 @@ class Graph
 {
 public:
 	bool Build(std::string filename);
-	void Insert(std::string line);
+	bool Insert(std::string line);
 	bool Delete(std::string line);
 	void GetSize(int& n, int& l) const;
+	int ConnectedComponents();
 	
 private:
 	int AddNode(int n);
 	int FindIndex(int n);
-	void Insert(int a, int b);
+	bool Insert(int a, int b);
 	Cell* AddLink(Cell* cell, int value);
 	bool RemoveLink(Cell& cell, int value);
+	void DepthFirstSearch(int index, bool* visited);
 
 private:
 	Cell* Elements = nullptr;
