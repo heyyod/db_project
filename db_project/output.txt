@@ -1,7 +1,51 @@
 COMMAND                                           RESULT
-BUILD GRAPH graphdata.txt.........................SUCCESS - 1.1141 ms
+BUILD MAXHEAP a.txt...............................SUCCESS - 4.3973 ms
+GETSIZE MAXHEAP...................................620 ELEMENTS
+FINDMAX MAXHEAP...................................1856168
+INSERT MAXHEAP 555................................SUCCESS - 0.0315 ms
+GETSIZE MAXHEAP...................................621 ELEMENTS
+DELETEMAX MAXHEAP.................................SUCCESS - 0.0444 ms
+FINDMAX MAXHEAP...................................1856168
+GETSIZE MAXHEAP...................................620 ELEMENTS
+BUILD MINHEAP a.txt...............................SUCCESS - 5.5342 ms
+GETSIZE MINHEAP...................................620 ELEMENTS - 
+FINDMIN MINHEAP...................................1
+INSERT MINHEAP 555................................SUCCESS - 0.0667 ms
+GETSIZE MINHEAP...................................621 ELEMENTS - 
+DELETEMIN MINHEAP.................................SUCCESS - 0.0798 ms
+FINDMIN MINHEAP...................................1
+GETSIZE MINHEAP...................................620 ELEMENTS - 
+BUILD AVLTREE a.txt...............................SUCCESS - 25.0364 ms
+GETSIZE AVLTREE...................................620 ELEMENTS
+FINDMIN AVLTREE...................................1 - 0.2277 ms
+SEARCH AVLTREE 555................................NUMBER NOT FOUND - 0.1732 ms
+INSERT AVLTREE 555................................0.2112 ms
+SEARCH AVLTREE 555................................SUCCESS - 0.1596 ms
+GETSIZE AVLTREE...................................621 ELEMENTS
+DELETE AVLTREE 55.................................NUMBER NOT FOUND - 0.2166 ms
+DELETE AVLTREE 555................................SUCCESS - 0.2098 ms
+SEARCH AVLTREE 555................................NUMBER NOT FOUND - 0.1613 ms
+GETSIZE AVLTREE...................................620 ELEMENTS
+BUILD HASHTABLE a.txt.............................SUCCESS - 4.5027 ms
+GETSIZE HASHTABLE.................................620 ELEMENTS - 
+SEARCH HASHTABLE 555..............................NUMBER NOT FOUND - 0.1201 ms
+INSERT HASHTABLE 555..............................SUCCESS - 0.1044 ms
+SEARCH HASHTABLE 555..............................SUCCESS - 0.1193 ms
+GETSIZE HASHTABLE.................................621 ELEMENTS - 
+DELETE HASHTABLE 55...............................NUMBER NOT FOUND - 0.11 ms
+DELETE HASHTABLE 555..............................SUCCESS - 0.1157 ms
+SEARCH HASHTABLE 555..............................NUMBER NOT FOUND - 0.1191 ms
+GETSIZE HASHTABLE.................................620 ELEMENTS - 
+BUILD GRAPH graphdata.txt.........................SUCCESS - 0.486 ms
 GETSIZE GRAPH.....................................9 NODE, 7 LINKS
-FINDCONNECTEDCOMPONENTS GRAPH.....................2 - 0.294 ms
-INSERT GRAPH 1 2..................................SUCCESS - 0.2858 ms
+FINDCONNECTEDCOMPONENTS GRAPH.....................2 - 0.2122 ms
+INSERT GRAPH 55 555...............................SUCCESS - 0.2129 ms
 GETSIZE GRAPH.....................................11 NODE, 8 LINKS
-FINDCONNECTEDCOMPONENTS GRAPH.....................3 - 0.2916 ms
+FINDCONNECTEDCOMPONENTS GRAPH.....................3 - 0.2124 ms
+DELETE GRAPH 55 555...............................SUCCESS - 0.2181 ms
+GETSIZE GRAPH.....................................11 NODE, 7 LINKS
+FINDCONNECTEDCOMPONENTS GRAPH.....................4 - 0.211 ms
+COMPUTESHORTESTPATH GRAPH 55 555..................NOT SUPPORTED
+COMPUTESPANNINGTREE GRAPH.........................NOT SUPPORTED
+
+TOTAL TIME ELAPSED                                43.2936 ms

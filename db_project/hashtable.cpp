@@ -33,7 +33,10 @@ bool Hashtable::Insert(int number)
 	if (a > 0.5)
 		ResizeTable();
 	if (Insert(number, table))
+	{
+		elements++;
 		return true;
+	}
 	return false;
 }
 

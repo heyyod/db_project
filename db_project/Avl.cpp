@@ -45,6 +45,7 @@ bool AVLTree::Build(std::string filename)
 void AVLTree::Insert(int number)
 {
 	root = Insert(root, number);
+	elements++;
 }
 
 bool AVLTree::Delete(int number)
@@ -70,7 +71,6 @@ Node* AVLTree::Insert(Node* n, int value)
 		n->rightChild = Insert(n->rightChild, value);
 	}
 	n = BalanceNode(n);
-	elements++;
 	return n;
 }
 

@@ -53,6 +53,7 @@ int main()
 	AVLTree avlTree;
 	Graph graph;
 
+	double totalTimeElapsed = 0.0;
 	output << "COMMAND                                           RESULT";
 	std::string line = "";
 	while (std::getline(commands, line))
@@ -220,7 +221,7 @@ int main()
 		{
 			int min = avlTree.GetMin();
 			if (min != -1)
-				output << "\t" << min << " - ";
+				output << min << " - ";
 			else
 			{
 				output << "AVL TREE IS EMPTY";
@@ -304,7 +305,10 @@ int main()
 		auto end = std::chrono::steady_clock::now();
 		std::chrono::duration<double> elapsed_seconds = end - start;
 		double elapsedTime = elapsed_seconds.count() * 1000;
+		totalTimeElapsed += elapsedTime;
 		output << elapsedTime << " ms";
 	}
+	output << "\n\nTOTAL TIME ELAPSED                                " << totalTimeElapsed << " ms" << std::endl;
+
 	return 0;
 }
