@@ -1,8 +1,8 @@
-#include "hashtable.h"
+#include "Hashtable.h"
 
 bool Hashtable::Build(std::string filename)
 {
-	std::ifstream data(filename);
+	std::fstream data(filename, std::ios::in);
 	if (!data)
 		return false;
 
@@ -29,7 +29,7 @@ bool Hashtable::Build(std::string filename)
 
 bool Hashtable::Insert(int number)
 {
-	double a = elements / capacity;
+	double a = (elements + 1) / capacity;
 	if (a > 0.5)
 		ResizeTable();
 	if (Insert(number, table))

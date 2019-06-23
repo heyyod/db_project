@@ -2,15 +2,15 @@
 
 MaxHeap::~MaxHeap()
 {
-	delete [] heap;
+	delete[] heap;
 }
 
 bool MaxHeap::Build(std::string filename)
 {
-	std::ifstream data(filename);
+	std::fstream data(filename, std::ios::in);
 	if (!data)
 		return false;
-	
+
 	// count the elements
 	std::string number = "";
 	while (std::getline(data, number))
@@ -107,7 +107,7 @@ void MaxHeap::Heapify(int level)
 	int leftPos = leftChild(level);
 	int rightPos = rightChild(level);
 	int maxPos = level;
-	
+
 	if (leftPos <= currentSize)
 	{
 		if (parent < heap[leftPos])
@@ -120,7 +120,7 @@ void MaxHeap::Heapify(int level)
 	{
 		Swap(maxPos, level);
 		Heapify(maxPos);
-	}	
+	}
 }
 
 void MaxHeap::Swap(int i, int j)

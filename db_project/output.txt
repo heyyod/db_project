@@ -1,51 +1,51 @@
 COMMAND                                           RESULT
-BUILD MAXHEAP a.txt...............................SUCCESS - 4.3973 ms
+BUILD MAXHEAP a.txt...............................SUCCESS - 4.759 ms
 GETSIZE MAXHEAP...................................620 ELEMENTS
 FINDMAX MAXHEAP...................................1856168
-INSERT MAXHEAP 555................................SUCCESS - 0.0315 ms
+INSERT MAXHEAP 555................................SUCCESS - 0.0319 ms
 GETSIZE MAXHEAP...................................621 ELEMENTS
-DELETEMAX MAXHEAP.................................SUCCESS - 0.0444 ms
+DELETEMAX MAXHEAP.................................SUCCESS - 0.0481 ms
 FINDMAX MAXHEAP...................................1856168
 GETSIZE MAXHEAP...................................620 ELEMENTS
-BUILD MINHEAP a.txt...............................SUCCESS - 5.5342 ms
-GETSIZE MINHEAP...................................620 ELEMENTS - 
+BUILD MINHEAP a.txt...............................SUCCESS - 4.3859 ms
+GETSIZE MINHEAP...................................620 ELEMENTS
 FINDMIN MINHEAP...................................1
-INSERT MINHEAP 555................................SUCCESS - 0.0667 ms
-GETSIZE MINHEAP...................................621 ELEMENTS - 
-DELETEMIN MINHEAP.................................SUCCESS - 0.0798 ms
+INSERT MINHEAP 555................................SUCCESS - 0.0664 ms
+GETSIZE MINHEAP...................................621 ELEMENTS
+DELETEMIN MINHEAP.................................SUCCESS - 0.079 ms
 FINDMIN MINHEAP...................................1
-GETSIZE MINHEAP...................................620 ELEMENTS - 
-BUILD AVLTREE a.txt...............................SUCCESS - 25.0364 ms
+GETSIZE MINHEAP...................................620 ELEMENTS
+BUILD AVLTREE a.txt...............................SUCCESS - 54.0593 ms
 GETSIZE AVLTREE...................................620 ELEMENTS
-FINDMIN AVLTREE...................................1 - 0.2277 ms
-SEARCH AVLTREE 555................................NUMBER NOT FOUND - 0.1732 ms
-INSERT AVLTREE 555................................0.2112 ms
-SEARCH AVLTREE 555................................SUCCESS - 0.1596 ms
+FINDMIN AVLTREE...................................1 - 0.121 ms
+SEARCH AVLTREE 555................................NUMBER NOT FOUND - 0.1598 ms
+INSERT AVLTREE 555................................0.2097 ms
+SEARCH AVLTREE 555................................SUCCESS - 0.161 ms
 GETSIZE AVLTREE...................................621 ELEMENTS
-DELETE AVLTREE 55.................................NUMBER NOT FOUND - 0.2166 ms
-DELETE AVLTREE 555................................SUCCESS - 0.2098 ms
-SEARCH AVLTREE 555................................NUMBER NOT FOUND - 0.1613 ms
+DELETE AVLTREE 55.................................NUMBER NOT FOUND - 0.2464 ms
+DELETE AVLTREE 555................................SUCCESS - 0.2166 ms
+SEARCH AVLTREE 555................................NUMBER NOT FOUND - 0.1591 ms
 GETSIZE AVLTREE...................................620 ELEMENTS
-BUILD HASHTABLE a.txt.............................SUCCESS - 4.5027 ms
-GETSIZE HASHTABLE.................................620 ELEMENTS - 
-SEARCH HASHTABLE 555..............................NUMBER NOT FOUND - 0.1201 ms
-INSERT HASHTABLE 555..............................SUCCESS - 0.1044 ms
-SEARCH HASHTABLE 555..............................SUCCESS - 0.1193 ms
-GETSIZE HASHTABLE.................................621 ELEMENTS - 
-DELETE HASHTABLE 55...............................NUMBER NOT FOUND - 0.11 ms
-DELETE HASHTABLE 555..............................SUCCESS - 0.1157 ms
-SEARCH HASHTABLE 555..............................NUMBER NOT FOUND - 0.1191 ms
-GETSIZE HASHTABLE.................................620 ELEMENTS - 
-BUILD GRAPH graphdata.txt.........................SUCCESS - 0.486 ms
+BUILD HASHTABLE a.txt.............................SUCCESS - 4.9681 ms
+GETSIZE HASHTABLE.................................620 ELEMENTS
+SEARCH HASHTABLE 555..............................NUMBER NOT FOUND - 0.1198 ms
+INSERT HASHTABLE 555..............................SUCCESS - 0.1032 ms
+SEARCH HASHTABLE 555..............................SUCCESS - 0.1189 ms
+GETSIZE HASHTABLE.................................621 ELEMENTS
+DELETE HASHTABLE 55...............................NUMBER NOT FOUND - 0.3643 ms
+DELETE HASHTABLE 555..............................SUCCESS - 0.1114 ms
+SEARCH HASHTABLE 555..............................NUMBER NOT FOUND - 0.1207 ms
+GETSIZE HASHTABLE.................................620 ELEMENTS
+BUILD GRAPH graphdata.txt.........................SUCCESS - 0.5126 ms
 GETSIZE GRAPH.....................................9 NODE, 7 LINKS
-FINDCONNECTEDCOMPONENTS GRAPH.....................2 - 0.2122 ms
-INSERT GRAPH 55 555...............................SUCCESS - 0.2129 ms
+FINDCONNECTEDCOMPONENTS GRAPH.....................2 - 0.2106 ms
+INSERT GRAPH 55 555...............................SUCCESS - 0.2111 ms
 GETSIZE GRAPH.....................................11 NODE, 8 LINKS
-FINDCONNECTEDCOMPONENTS GRAPH.....................3 - 0.2124 ms
-DELETE GRAPH 55 555...............................SUCCESS - 0.2181 ms
+FINDCONNECTEDCOMPONENTS GRAPH.....................3 - 0.2099 ms
+DELETE GRAPH 55 555...............................SUCCESS - 0.2175 ms
 GETSIZE GRAPH.....................................11 NODE, 7 LINKS
-FINDCONNECTEDCOMPONENTS GRAPH.....................4 - 0.211 ms
+FINDCONNECTEDCOMPONENTS GRAPH.....................4 - 0.2382 ms
 COMPUTESHORTESTPATH GRAPH 55 555..................NOT SUPPORTED
 COMPUTESPANNINGTREE GRAPH.........................NOT SUPPORTED
 
-TOTAL TIME ELAPSED                                43.2936 ms
+TOTAL TIME ELAPSED                                72.2095 ms

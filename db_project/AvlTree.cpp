@@ -1,4 +1,4 @@
-#include "Avl.h"
+#include "AvlTree.h"
 
 Node::Node(int v, Node * l, Node * r)
 {
@@ -12,7 +12,7 @@ Node::Node(int v, Node * l, Node * r)
 int Node::height()
 {
 	int h = 0;
-	if (this != nullptr) 
+	if (this != NULL)
 	{
 		int leftHeight = this->leftChild->height();
 		int rightHeight = this->rightChild->height();
@@ -24,7 +24,7 @@ int Node::height()
 
 AVLTree::AVLTree()
 {
-	root = nullptr;
+	root = NULL;
 	elements = 0;
 }
 
@@ -37,9 +37,10 @@ bool AVLTree::Build(std::string filename)
 	std::string number;
 	while (std::getline(data, number))
 	{
-		int x = std::stoi(number);
+		int x = stoi(number);
 		Insert(x);
 	}
+	return true;
 }
 
 void AVLTree::Insert(int number)
@@ -57,9 +58,9 @@ bool AVLTree::Delete(int number)
 
 Node* AVLTree::Insert(Node* n, int value)
 {
-	if (n == nullptr)
+	if (n == NULL)
 	{
-		Node* n = new Node(value, nullptr, nullptr);
+		Node* n = new Node(value, NULL, NULL);
 		return n;
 	}
 	else if (value <= n->value)
@@ -76,8 +77,8 @@ Node* AVLTree::Insert(Node* n, int value)
 
 Node * AVLTree::Delete(Node* n, int value, bool& found)
 {
-	Node* temp = nullptr; // we'll save the node we need to delete here.
-	if (n != nullptr)
+	Node* temp = NULL; // we'll save the node we need to delete here.
+	if (n != NULL)
 	{
 		if (value < n->value)
 			n->leftChild = Delete(n->leftChild, value, found);
@@ -85,13 +86,13 @@ Node * AVLTree::Delete(Node* n, int value, bool& found)
 			n->rightChild = Delete(n->rightChild, value, found);
 		else
 		{
-			if (n->leftChild == nullptr && n->rightChild == nullptr) // No children
+			if (n->leftChild == NULL && n->rightChild == NULL) // No children
 			{
 				// Since the node is a leaf we can just delete it.
 				temp = n;
-				n = nullptr;
+				n = NULL;
 			}
-			else if (n->leftChild != nullptr && n->rightChild == nullptr) // Left child only
+			else if (n->leftChild != NULL && n->rightChild == NULL) // Left child only
 			{
 				// When the node only has on child, it replaces its parent
 				// that is going to get deleted
@@ -99,7 +100,7 @@ Node * AVLTree::Delete(Node* n, int value, bool& found)
 				temp = n;
 				n = leftChild;
 			}
-			else if (n->leftChild == nullptr && n->rightChild != nullptr) // Right child only
+			else if (n->leftChild == NULL && n->rightChild != NULL) // Right child only
 			{
 				Node* rightChild = n->rightChild;
 				temp = n;
@@ -125,7 +126,7 @@ Node * AVLTree::Delete(Node* n, int value, bool& found)
 
 Node* AVLTree::BalanceNode(Node* n)
 {
-	if (n == nullptr)
+	if (n == NULL)
 		return n;
 
 	int nBalanceFactor = nodeBalanceFactor(n);
@@ -185,9 +186,9 @@ Node * AVLTree::MinNode(Node * n) const
 	// We navigate to the far left of the tree that
 	// has root n
 	Node* currentNode = n;
-	if (currentNode != nullptr)
+	if (currentNode != NULL)
 	{
-		while (currentNode->leftChild != nullptr)
+		while (currentNode->leftChild != NULL)
 			currentNode = currentNode->leftChild;
 		return currentNode;
 	}
@@ -205,7 +206,7 @@ bool AVLTree::Search(int number) const
 	// Starting from the root, we try to find the number
 	// moving down the tree
 	Node* currentNode = root;
-	while (currentNode != nullptr)
+	while (currentNode != NULL)
 	{
 		if (currentNode->value == number)
 			return true;
@@ -220,7 +221,7 @@ bool AVLTree::Search(int number) const
 int AVLTree::GetMin() const
 {
 	Node* minNode = MinNode(root);
-	if (minNode != nullptr)
+	if (minNode != NULL)
 		return minNode->value;
 	return -1;
 }

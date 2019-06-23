@@ -32,6 +32,9 @@ public:
 	bool Delete(std::string line);
 	void GetSize(int& n, int& l) const;
 	int ConnectedComponents();
+	int ComputeSpanningTree();
+
+	int FindShortestPath(int start, int end); // NOT COMPLETED
 	
 private:
 	int AddNode(int n);
@@ -40,6 +43,7 @@ private:
 	Cell* AddLink(Cell* cell, int value);
 	bool RemoveLink(Cell& cell, int value);
 	void DepthFirstSearch(int index, bool* visited);
+	int BreadthFirstSearch(int start, int end, int currentDist);
 
 private:
 	Cell* Elements = nullptr;

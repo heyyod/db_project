@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Avl.cpp" />
+    <ClCompile Include="AvlTree.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="hashtable.cpp" />
     <ClCompile Include="main.cpp" />
@@ -27,7 +27,7 @@
     <ClCompile Include="MinHeap.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Avl.h" />
+    <ClInclude Include="AvlTree.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="hashtable.h" />
     <ClInclude Include="MaxHeap.h" />

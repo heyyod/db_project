@@ -27,10 +27,10 @@
     <ClCompile Include="hashtable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Avl.cpp">
+    <ClCompile Include="Graph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Graph.cpp">
+    <ClCompile Include="AvlTree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,10 +44,10 @@
     <ClInclude Include="hashtable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Avl.h">
+    <ClInclude Include="Graph.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graph.h">
+    <ClInclude Include="AvlTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

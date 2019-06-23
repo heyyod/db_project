@@ -2,7 +2,7 @@
 
 bool Graph::Build(std::string filename)
 {
-	std::ifstream data(filename);
+	std::fstream data(filename, std::ios::in);
 	if (!data)
 		return false;
 
@@ -12,7 +12,7 @@ bool Graph::Build(std::string filename)
 	while (std::getline(data, numbers))
 		maxSize += 2;
 	maxSize += 100; // add some extra space
-	
+
 	delete[] Elements; // delete for safety
 	Elements = new Cell[maxSize];
 
@@ -20,7 +20,6 @@ bool Graph::Build(std::string filename)
 	data.clear();
 	data.seekg(0, std::ios_base::beg);
 
-	int i = 0;
 	while (std::getline(data, numbers))
 	{
 		int a, b;
@@ -41,17 +40,16 @@ bool Graph::Insert(int a, int b)
 {
 	int indexA = FindIndex(a);
 	int indexB = FindIndex(b);
-	
+
 	// Add as new node if it does not exist
-	if (indexA == -1)
 		indexA = AddNode(a);
 	if (indexB == -1)
 		indexB = AddNode(b);
+
+	// Return fals if table is full
 	if (indexA == -2 || indexB == -2)
-	{
 		return false;
-	}
-	
+
 	if (indexA != indexB)
 	{
 		Elements[indexA].next = AddLink(Elements[indexA].next, b);
@@ -90,11 +88,11 @@ int Graph::FindIndex(int n)
 
 Cell* Graph::AddLink(Cell* cell, int value)
 {
-	if (cell != nullptr)
+	if (cell != NULL)
 	{
 		if (cell->value == value) // link already exists
 		{
-			links--; // just to counter the lines++ in the Connect function
+			links--; // just to counter the links++ in the Connect function
 			return cell;
 		}
 		cell->next = AddLink(cell->next, value);
@@ -114,18 +112,25 @@ bool Graph::Delete(std::string line)
 	if (indexA == -1 || indexB == -1)
 		return false; // one or both numbers not found
 
-	if (RemoveLink(Elements[indexA], b))
+	if (indexA != indexB)
 	{
-		RemoveLink(Elements[indexB], a);
-		links--;
-		return true; // succesfully removed link
+		if (RemoveLink(Elements[indexA], b))
+		{
+			RemoveLink(Elements[indexB], a);
+			links--;
+			return true; // succesfully removed link
+		}
+	}
+	else
+	{
+		return RemoveLink(Elements[indexA], b);
 	}
 	return false; // link does not exist
 }
 
 bool Graph::RemoveLink(Cell& cell, int value)
 {
-	if (cell.next != nullptr)
+	if (cell.next != NULL)
 	{
 		if (cell.next->value != value)
 			return RemoveLink(*cell.next, value);
@@ -141,27 +146,6 @@ bool Graph::RemoveLink(Cell& cell, int value)
 		}
 	}
 	return false;
-}
-
-void Graph::DepthFirstSearch(int index, bool* visited)
-{
-	visited[index] = true;
-	Cell* neighbour = Elements[index].next;
-	while (neighbour != nullptr)
-	{
-		int neighbourIndex = FindIndex(neighbour->value);
-		if (!visited[neighbourIndex])
-		{
-			DepthFirstSearch(neighbourIndex, visited);
-		}
-		neighbour = neighbour->next;
-	}
-}
-
-void Graph::GetSize(int & n, int & l) const
-{
-	n = nodes;
-	l = links;
 }
 
 int Graph::ConnectedComponents()
@@ -180,6 +164,57 @@ int Graph::ConnectedComponents()
 		}
 	}
 	return components;
+}
+
+int Graph::FindShortestPath(int start, int end)
+{
+	int startIndex = FindIndex(start);
+	int distance = BreadthFirstSearch(startIndex, end, 0);
+
+	return 0;
+}
+
+int Graph::ComputeSpanningTree()
+{
+	return (nodes - ConnectedComponents());
+}
+
+void Graph::DepthFirstSearch(int index, bool* visited)
+{
+	visited[index] = true;
+	Cell* neighbour = Elements[index].next;
+	while (neighbour != NULL)
+	{
+		int neighbourIndex = FindIndex(neighbour->value);
+		if (!visited[neighbourIndex])
+		{
+			DepthFirstSearch(neighbourIndex, visited);
+		}
+		neighbour = neighbour->next;
+	}
+}
+
+int Graph::BreadthFirstSearch(int startIndex, int endValue, int currentDist)
+{
+	++currentDist;
+	Cell* neighbour = Elements[startIndex].next;
+	while (neighbour->next != NULL)
+	{
+		int neighbourValue = neighbour->value;
+		int neighbourIndex = FindIndex(neighbourValue);
+		if (neighbourValue == endValue)
+			return currentDist;
+		else
+			neighbour = neighbour->next;
+	}
+	// call itself for every children of the neighbours we just checked
+	//BreadthFirstSearch(neighbourIndex, endValue, currentDist);
+}
+
+void Graph::GetSize(int & n, int & l) const
+{
+	n = nodes;
+	l = links;
 }
 
 void Graph::ExtractNumbers(std::string line, int & a, int & b)

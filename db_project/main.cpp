@@ -2,8 +2,8 @@
 #include <chrono>
 #include "MaxHeap.h"
 #include "MinHeap.h"
-#include "hashtable.h"
-#include "Avl.h"
+#include "Hashtable.h"
+#include "AvlTree.h"
 #include "Graph.h"
 
 bool IsCommand(std::string command, std::string line)
@@ -38,7 +38,9 @@ int ExtractNumber(std::string line)
 
 int main()
 {
-	std::ifstream commands("commands.txt");		
+	using std::chrono::steady_clock;
+
+	std::ifstream commands("commands.txt");
 	std::ofstream output("output.txt");
 	if (!commands)
 	{
@@ -53,7 +55,7 @@ int main()
 	AVLTree avlTree;
 	Graph graph;
 
-	double totalTimeElapsed = 0.0;
+	float totalTimeElapsed = 0.0;
 	output << "COMMAND                                           RESULT";
 	std::string line = "";
 	while (std::getline(commands, line))
@@ -61,14 +63,14 @@ int main()
 		// Just some formating for the output
 		output << std::endl << line;
 		std::string space = "";
-		for (int i = 0; i < (50 - line.length()); i++)
+		for (unsigned int i = 0; i < (50 - line.length()); i++)
 			space += '.';
 		output << space;
 
-		auto start = std::chrono::steady_clock::now();
-		
+		auto startPoint = std::chrono::steady_clock::now();
+
 		int number = ExtractNumber(line);
-		
+
 		//~~~~~~~~~~~~~~~ MAX HEAP ~~~~~~~~~~~~~~~
 		if (IsCommand("BUILD MAXHEAP", line))
 		{
@@ -161,7 +163,7 @@ int main()
 		else if (IsCommand("GETSIZE MINHEAP", line))
 		{
 			int size = minHeap.GetSize();
-			output << size << " ELEMENTS - ";
+			output << size << " ELEMENTS";
 			continue;
 		}
 
@@ -201,7 +203,7 @@ int main()
 		else if (IsCommand("GETSIZE HASHTABLE", line))
 		{
 			int size = hashTable.GetSize();
-			output << size << " ELEMENTS - ";
+			output << size << " ELEMENTS";
 			continue;
 		}
 
@@ -212,10 +214,10 @@ int main()
 			if (avlTree.Build(filename))
 				output << "SUCCESS - ";
 			else
-				{
+			{
 				output << "FILE NOT FOUND. MAKE SURE IT IS A .txt LOCATED IN THE FOLDER OF THE EXECUTABLE";
 				continue;
-				}
+			}
 		}
 		else if (IsCommand("FINDMIN AVLTREE", line))
 		{
@@ -291,22 +293,21 @@ int main()
 			int components = graph.ConnectedComponents();
 			output << components << " - ";
 		}
+		else if (IsCommand("COMPUTESPANNINGTREE GRAPH", line))
+		{
+			output << graph.ComputeSpanningTree();
+		}
 		else if (IsCommand("COMPUTESHORTESTPATH GRAPH", line))
 		{
 			output << "NOT SUPPORTED";
 			continue;
 		}
-		else if (IsCommand("COMPUTESPANNINGTREE GRAPH", line))
-		{
-			output << "NOT SUPPORTED";
-			continue;
-		}
 
-		auto end = std::chrono::steady_clock::now();
-		std::chrono::duration<double> elapsed_seconds = end - start;
-		double elapsedTime = elapsed_seconds.count() * 1000;
-		totalTimeElapsed += elapsedTime;
-		output << elapsedTime << " ms";
+		auto endPoint = std::chrono::steady_clock::now();
+		auto commandRuntime = std::chrono::duration_cast<std::chrono::duration<float>>(endPoint - startPoint);
+		float durationMs = commandRuntime.count() * 1000.0f;
+		totalTimeElapsed += durationMs;
+		output << durationMs << " ms";
 	}
 	output << "\n\nTOTAL TIME ELAPSED                                " << totalTimeElapsed << " ms" << std::endl;
 
