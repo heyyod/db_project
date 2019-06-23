@@ -2,12 +2,6 @@
 #include <string>
 #include <fstream>
 
-/*
-COMPUTESHORTESTPATH N1 N2
-COMPUTESPANNINGTREE
-FINDCONNECTEDCOMPONENTS
-*/
-
 struct Cell
 {
 	Cell()
